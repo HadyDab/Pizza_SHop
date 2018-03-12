@@ -1,0 +1,37 @@
+package de.fh_zwickau.oose.zuul.model.items;
+
+/**
+ * A key that extends the abstract class item and implements the methods of this class.
+ * @author XardsLP
+ */
+import java.util.Optional;
+
+import de.fh_zwickau.oose.zuul.model.Player;
+import de.fh_zwickau.oose.zuul.model.Room;
+
+
+public class Key extends Item{
+	
+	/**
+	 *  This Item opens a lock Door 
+	 *  If the door can be unlooked than give information to the player.
+	 *  If the door can't be unlocked than give to information to the player.
+	 */
+	@Override
+	public void useItem(Player player,String string) {
+		Optional<Room> lockRoom = player.getCurrentRoom().getExit(string);
+		Room nextRoom;
+		if(lockRoom.isPresent()) {
+			nextRoom = lockRoom.get();
+			if(nextRoom.isDoorLock()) {
+				nextRoom.setLock(false);
+				System.out.println("This room has been unlocked");
+			} else {
+				System.out.println("This room is already unlocked");
+			}
+		}  else {
+			
+		}
+	}
+	
+}

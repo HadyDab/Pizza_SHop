@@ -1,0 +1,70 @@
+package de.fh_zwickau.oose.zuul.model.commands;
+
+import java.util.HashMap;
+import java.util.Iterator;
+
+/**
+ * This class is the main class of the "World of Zuul" application.
+ * "World of Zuul" is a very simple, text based adventure game.
+ *
+ * This class holds a collection of all command words known to the game.
+ * It is used to recognise commands as they are typed in.
+ *
+ * @author  Michael Kolling and David J. Barnes
+ * @version 2.0 (December 2002)
+ */
+public class CommandWords {
+	
+    private HashMap<String, Command> commands;
+
+    /**
+     * Constructor - initialize the command words.
+     */
+    public CommandWords() {
+        commands = new HashMap<String, Command>();
+        commands.put("go", new GoCommand());
+        commands.put("help", new HelpCommand(this));
+        commands.put("quit", new QuitCommand());
+        commands.put("back", new BackCommand());
+        commands.put("use", new UseCommand());
+        commands.put("look", new LookCommand());
+        commands.put("take", new TakeCommand());
+        commands.put("drop", new DropItemCommand());
+        commands.put("showinventory", new ShowInventoryCommand()); 
+        commands.put("talk", new TalkCommand());
+    }
+
+    /**
+     * Given a command word, find and return the matching command object.
+     * Return null if there is no command with this name.
+     * @return command the matching command object
+     */
+    public Command get(String word) {
+    		if(commands.containsKey(word))
+        return (Command)commands.get(word);
+    		else {
+    			System.out.println("This is not a Valid Command Word");
+    			return null;
+    		}
+    }
+    
+    /**
+     * Print all valid commands to System.out. TODO: Later it will be printed to a GUI.
+     */
+    public String showAll() {
+    	String allComands = "";
+        for(Iterator i = commands.keySet().iterator(); i.hasNext(); ) {
+        	    allComands += i.next() + " " ;
+//            System.out.print(i.next() + "  ");
+        }
+        return allComands;
+    }
+    
+    /**
+     * A simple Getter Method to return a HashMap of the commands.
+     * @return commands all commands of the game
+     */
+    public HashMap<String, Command> getCommands() {
+    	     return commands;
+    }
+}

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.fh_zwickau.oose.zuul.view.MissionsControler">
+   <children>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <SplitPane dividerPositions="0.4607679465776294" minHeight="350.0" minWidth="1200.0" prefHeight="160.0" prefWidth="200.0">
+              <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                     <children>
+                        <TableView fx:id="missions" layoutX="-30.0" layoutY="-12.0" prefHeight="298.0" prefWidth="354.0" stylesheets="@DarkTheme.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columns>
+                            <TableColumn fx:id="numbers" minWidth="100.0" prefWidth="100.0" text="Number" />
+                            <TableColumn fx:id="name" minWidth="300.0" prefWidth="300.0" text="Name" />
+                              <TableColumn fx:id="status" minWidth="150.0" prefWidth="150.0" text="Status" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="298.0" prefWidth="619.0" style="-fx-background-color: grey;" stylesheets="@DarkTheme.css">
+                     <children>
+                        <TextArea fx:id="description" layoutX="20.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: black; -fx-border-width: 4;" styleClass="table-view" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="80.0" />
+                        <Text layoutX="20.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 22;" text="Description of the selected Mission:" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="25.0" />
+                        <Button layoutX="387.0" layoutY="12.0" mnemonicParsing="false" onAction="#handleMissionsQuit" style="-fx-background-color: darkred;" text="Back" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
+                     </children>
+                  </AnchorPane>
+              </items>
+            </SplitPane>
+            <Label style="-fx-background-color: red; -fx-font-size: 30;" text="Will be released with the beta version of the game." AnchorPane.leftAnchor="260.0" AnchorPane.topAnchor="250.0" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

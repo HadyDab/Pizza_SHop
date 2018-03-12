@@ -1,0 +1,47 @@
+/**
+ * 
+ */
+package de.fh_zwickau.oose.zuul.model;
+
+/**
+ * @author hadyDab
+ *
+ */
+public class GameTask {
+	
+	private String name;
+		
+	public GameTask(String name) {
+		this.name = name;
+	}
+	
+	
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	/**
+	 * Check if item is in this room.
+	 * @param gameWorld 
+	 * @param name
+	 * @param itemName
+	 * @return
+	 */
+	public boolean checkTask(GameWorld gameWorld,String name,String itemName){
+		Room room = gameWorld.getThisRoombyName(name);	
+		if(room.checkForItem(itemName)) {
+			return true;
+		} else {
+			return false;
+		}
+	}	
+}

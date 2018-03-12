@@ -1,0 +1,124 @@
+
+package de.fh_zwickau.oose.zuul.model.NPC;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import de.fh_zwickau.oose.zuul.model.Player;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+
+/**
+ * @author HadyDab
+ *
+ */
+public abstract class Ghost {
+	
+	private String name;
+	
+	private int health;
+	
+	protected TextField input;
+	
+	protected TextArea output;
+	
+	private Map<String,String> images;
+	
+	
+	
+
+	/**
+	 * @param name
+	 * @param health
+	 */
+	public Ghost(String name, int health) {
+		super();
+		this.name = name;
+		this.health = health;
+		this.images = new HashMap<>();
+		
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+	
+	
+	
+	public void addImage(String imagename, String ImageLocation) {
+		this.images.put(imagename, ImageLocation);
+	}
+
+	
+	
+	public String getImage(String imageName) {
+		return this.images.get(imageName);
+	}
+
+
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+
+
+	/**
+	 * @return the health
+	 */
+	public int getHealth() {
+		return health;
+	}
+
+
+
+
+	/**
+	 * @param health the health to set
+	 */
+	public void setHealth(int health) {
+		this.health = health;
+	}
+
+	
+	
+	
+	
+
+
+	/**
+	 * @return the input
+	 */
+	public TextField getInput() {
+		return input;
+	}
+
+	/**
+	 * @return the output
+	 */
+	public TextArea getOutput() {
+		return output;
+	}
+
+	/**
+	 *  Abstract Method to be implemented by sub classes
+	 * @param player
+	 */
+	public abstract void interactWithPlayer(Player player,TextArea output,TextField input);
+
+	
+	
+	
+	
+	
+	
+	
+	
+}

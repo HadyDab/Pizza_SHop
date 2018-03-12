@@ -1,0 +1,32 @@
+package de.fh_zwickau.oose.zuul.model.commands;
+
+import de.fh_zwickau.oose.zuul.model.Player;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+
+public class TalkCommand extends Command {
+
+	public TalkCommand() {
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public boolean execute(Player player) {
+		//player.talk();
+		return false;
+	}
+
+	@Override
+	public String getHelp() {
+		// TODO Auto-generated method stub
+		return "Press the [talk] button to talk to a Ghost";
+	}
+
+	@Override
+	public boolean executeGUI(Player player, TextArea output, ImageView roomview, ImageView posview, TextField input) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+}

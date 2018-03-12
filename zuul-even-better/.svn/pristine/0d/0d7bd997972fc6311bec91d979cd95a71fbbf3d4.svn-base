@@ -1,0 +1,38 @@
+/**
+ * 
+ */
+package de.fh_zwickau.oose.zuul.view;
+
+import javafx.fxml.FXML;
+
+/**
+ * @author hady
+ *
+ */
+public class StartControler {
+	
+	
+	
+	public void StartControler() {}
+	
+	
+	
+	
+	public void init() {
+		
+	}
+	
+	
+	
+	@FXML
+	private void handleStartNewButton() {
+		
+	}
+	
+	
+	@FXML
+	private void handleLoadGamebutton() {
+		
+	}
+
+}

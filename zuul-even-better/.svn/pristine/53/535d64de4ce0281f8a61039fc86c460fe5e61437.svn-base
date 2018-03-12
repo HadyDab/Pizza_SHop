@@ -1,0 +1,41 @@
+package de.fh_zwickau.oose.zuul.view;
+
+import de.fh_zwickau.oose.zuul.MainApp;
+
+import javafx.fxml.FXML;
+import javafx.scene.image.ImageView;
+
+public class ImageViewControler {
+	
+	@FXML
+	private ImageView image;
+	
+	private MainApp mainApp;
+	
+	
+	
+	public ImageViewControler() {
+		
+	}
+	
+	
+	/**
+	 *  Initiate this Controller, this method will be called in the main class
+	 */
+	public void initControler() {
+
+	
+	//image.setImage(new Image(player.showlookingDirection(direction)));
+
+	}
+	
+
+	
+	/**
+	 * @param mainApp the mainApp to set
+	 */
+	public void setMainApp(MainApp mainApp) {
+		this.mainApp = mainApp;
+	}
+
+}

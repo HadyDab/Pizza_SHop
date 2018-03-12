@@ -1,0 +1,451 @@
+package de.fh_zwickau.oose.zuul.view;
+
+import java.util.Map;
+import java.util.Map.Entry;
+
+import de.fh_zwickau.oose.zuul.MainApp;
+import de.fh_zwickau.oose.zuul.model.GameTask;
+import de.fh_zwickau.oose.zuul.model.House;
+import de.fh_zwickau.oose.zuul.model.Parser2;
+import de.fh_zwickau.oose.zuul.model.Player;
+import de.fh_zwickau.oose.zuul.model.Room;
+import de.fh_zwickau.oose.zuul.model.NPC.Ghost;
+import de.fh_zwickau.oose.zuul.model.commands.Command;
+import de.fh_zwickau.oose.zuul.model.commands.CommandWords;
+import de.fh_zwickau.oose.zuul.model.items.Item;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
+import javafx.util.Callback;
+
+public class GameControler {
+	
+	@FXML
+	private TextArea textArea;
+	
+	@FXML
+	private TextField textField;
+	
+	@FXML
+	private Button east, north, south, west;
+	
+	@FXML
+	private Button take, drop, use, look, showinventory;
+	
+	@FXML
+	private Button quit, help, enter;
+	
+	@FXML
+    private ImageView imageView, npcImageView;
+	
+	@FXML
+    private ImageView positionView;
+	
+	@FXML
+	private TableView<Map.Entry<String, Item>> itemsInRoom;
+	
+	
+	@FXML
+	private TableColumn<Map.Entry<String,Item>, String> itemName;
+	
+	@FXML
+	private TableView<Map.Entry<String, Item>>  playerInventory;
+	
+	@FXML
+	private TableColumn<Map.Entry<String, Item>, String> itemNameinPlayerInventory;
+	
+	@FXML
+	private Text position;
+	
+	@FXML
+	private Text tips;
+	
+	private MainApp mainApp;
+	private Player player;
+	private House hellwack;
+	private Parser2 parser;
+	private Command command;
+	private CommandWords commands;
+	private Room room;
+	private GameTask firstTask; 
+	
+	
+	public GameControler() {
+		
+	}
+	
+	
+	
+	/**
+	 *  Initiate this Controller, this method will be called in the main class
+	 */
+	public void initControler() {
+		initialGame();
+		
+		imageView.setImage(new Image(player.showlookingDirection("south")));
+		positionView.setImage(new Image("file:src/resources/positions/Outside.png"));
+		
+		listPlayerInventory();
+	}
+	
+	
+	/**
+	 *  When the enter button is press an a Command will be executed base on what
+	 *  the player key in
+	 */
+	public void handleEnter() {
+		Command command = parser.getCommand(textField);
+		executeCommand(command);
+		textField.clear();		
+	}
+	
+	/**
+	 *  When the button north is press player move towards this direction
+	 */
+	public void handleNorthButton() {
+		goTothisDirection("north");		
+	}
+	
+	/**
+	 *  When the button south is press player move towards this direction
+	 */
+	public void handleSouthButton(){
+		goTothisDirection("south");
+		
+	}
+	
+	/**
+	 * When the button west is press player move towards this direction
+	 */
+	 public void handleWestButton(){
+		 goTothisDirection("west");
+		 
+	 }
+	
+	 /**
+	  * When the button east is press player move towards this direction
+	  */
+	 public void handleEastButton(){
+		 goTothisDirection("east");
+		 
+		 
+	 }
+	 
+		
+		/**
+		 *   When the button look is press Items in the current room will be listed.
+		 */
+		@FXML
+		private void handleLookButton() {
+			lookForItemsinThisRoom();
+		}
+		
+		/**
+		 *  When the button save is press the current state of the game will be saved
+		 */
+		@FXML
+		private void handleSaveButton() {
+			try {
+				
+			} catch(Exception e) {
+				
+			}
+		}
+		
+		/**
+		 *  When the button load is press the last save state of the game will be loaded
+		 */
+		@FXML
+		private void handleLoadButton() {
+			try {
+				
+			} catch(Exception e) {
+				
+			}
+		}
+		
+		
+		
+		
+		/**
+		 *  Player will pick up an item after selecting this item, if no item selected,player will be notify 
+		 */
+		@FXML
+		private void handleTakeButton() {
+			int selectedIndex = itemsInRoom.getSelectionModel().getSelectedIndex();
+			if(selectedIndex >= 0) {
+				Item item = (Item) itemsInRoom.getItems().get(selectedIndex).getValue();
+				String itemName =  itemsInRoom.getItems().get(selectedIndex).getKey();
+				player.addItemtoInventory(itemName, item);
+				Room room = player.getCurrentRoom();
+				room.deleteThisItem(itemName);
+				lookForItemsinThisRoom();
+				listPlayerInventory();
+		
+			} else {
+				notifyError("No Selection", "", "You most Select an Item to able to take it ");
+			}	
+		}
+		
+		
+		
+		@FXML
+		private void handleDropButton() {
+			int selectedIndex = playerInventory.getSelectionModel().getSelectedIndex();
+			if(selectedIndex >= 0) {
+				String itemName =  playerInventory.getItems().get(selectedIndex).getKey();
+				player.dropItem(itemName);
+				lookForItemsinThisRoom();
+				listPlayerInventory();
+				
+			} else {
+				notifyError("No Selection", "", "You most Select an Item to able to take it ");
+			}	
+			
+		}
+		
+		
+		@FXML
+		private void handleUseButton() {
+			
+		}
+		
+		
+		
+		/**
+		 *  Game will quit
+		 */
+		@FXML
+		private void handleQuitButton() {
+			
+			mainApp.exitGame();
+			
+		}
+		
+		
+		/**
+		 * This method moves player to the giving direction 
+		 * @param direction in which player is to move
+		 */
+		private void goTothisDirection(String direction) {
+			
+			if(!player.currentRoomhasExit(direction).isPresent()) {
+				textArea.appendText(" There is no Exit in this Direction \n");
+			} else {
+				  Room room = player.currentRoomhasExit(direction).get();
+				 if(room.isDoorLock()) {
+
+					 textArea.appendText(" This Door is locked find a Key to open it \n");
+				 } else {
+					 	command = commands.get("go");
+						command.setSecondWord(direction);
+						command.execute(player);
+						textArea.appendText(player.showExitOfCurreentRoom() + "\n");
+						textArea.appendText(room.isThereGhost() + "\n");
+						
+						Image image = new Image(room.getImageFromDirection(direction));
+						Image position = new Image(room.getPlayerPosition(direction));
+						imageView.setImage(image);
+						positionView.setImage(position);
+						if(room.isThereAGhost()) {
+							Ghost ghost = room.getGhost();
+						Image npcImage1 = new Image(ghost.getImage(room.getShortDescription()));
+						npcImageView.setImage(npcImage1);
+						}else { npcImageView.setImage(null);}
+//						textArea.appendText(room.isThereGhost() + "\n");
+//						textArea.appendText(player.showExitOfCurreentRoom() + "\n");
+						itemsInRoom.setItems(null);
+				
+					 
+				 }
+				
+			}
+		}
+		
+		
+		/**
+		 *   This Method will process a Command base on which command word is entered
+		 * @param command the command generated base on the command word
+		 */
+		private void executeCommand(Command command) {
+			
+			switch (command.getCommandWord()) {
+			
+			case "go":
+				goTothisDirection(command.getSecondWord());
+				break;
+			case "look":
+					command = commands.get("look");
+					command.execute(player);
+					
+				break;
+				
+			case "help":
+				if(command.hasSecondWord()) {
+					Command command1 = commands.get(command.getSecondWord());
+					String commandHelp = command1.getHelp();
+					textArea.appendText(commandHelp + "\n");
+				} else {
+					textArea.appendText(command.getHelp() + "\n");
+					}
+				
+				break;
+			case "talk":
+							talktoGhost();
+					
+				break;
+			default:
+				System.out.println("Select a valid option");
+				break;
+			}
+			
+		}
+
+
+		/**
+		 * 	 When Player press the button look the table will list all the key value of the current room items
+		 *   Method will Wrap current room items from map to an ObservableList and extract the key to the Column ItemName
+		 */
+		private void lookForItemsinThisRoom(){
+			itemName.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<String, Item>, String>, ObservableValue<String>>(){
+				@Override
+				public ObservableValue<String> call(CellDataFeatures<Entry<String, Item>, String> p) {
+					return new SimpleStringProperty(p.getValue().getKey());
+				}
+			});
+			
+			room = player.getCurrentRoom();
+			
+			ObservableList<Entry<String, Item>> items = FXCollections.observableArrayList(room.getAllItems().entrySet());
+			
+			items.addListener(new ListChangeListener<Map.Entry<String, Item>>(){
+
+				@Override
+				public void onChanged(Change<? extends Entry<String, Item>> p) {
+					
+					
+				}
+				
+			});
+		
+			
+			if(!items.isEmpty()) {
+				itemsInRoom.setItems(items);
+			} else {
+				 items = null;
+				itemsInRoom.setItems(items);
+				textArea.appendText("There are no items in this room. \n\n");
+			}
+			
+			
+		}
+		
+		
+		
+		
+		
+		/**
+		 *   List all the items player has in his/her Inventory
+		 */
+		private void listPlayerInventory() {
+			itemNameinPlayerInventory.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<String, Item>, String>, ObservableValue<String>>(){
+				@Override
+				public ObservableValue<String> call(CellDataFeatures<Entry<String, Item>, String> p) {
+					return new SimpleStringProperty(p.getValue().getKey());
+				}	
+				
+			});
+			ObservableList<Entry<String, Item>> inventory = FXCollections.observableArrayList(player.getInventory().entrySet());
+			playerInventory.setItems(inventory);
+			
+		}
+	
+	
+	/**
+	 *  This Method initiate all the required class for playing the game
+	 */
+	private void initialGame() {
+		parser = new Parser2();
+		player = new Player();
+		hellwack = new House("HellWack Villa");
+		hellwack.buildHouseWithRooms(player);
+		commands = new CommandWords();
+		textArea.appendText(printWelcome() + "\n");
+		textArea.appendText(player.showExitOfCurreentRoom() + "\n");
+		
+		
+	}
+	
+	
+	
+	/**
+	 *  This Method return the Welcome message when a player start playing the game  
+	 * @return welcome
+	 */
+	private String printWelcome() {
+		String welcome = "Welcome to the late Mr Hellwack Villa Detective \n\n"
+             + "You have been invited by the family of late Mr Hellwack to their Greatgrandfather's Villa.\n"
+             + "There have been report by the neighbors of paranomal Activities in the Villa.\n"
+             + "The Family wants you to check the buildings for this paranomal activities and report back.\n "
+             + "Type [help] without the square brackets to see all Command Words. \n" ;
+			return welcome;	
+	 
+	}
+	
+	
+	
+	/**
+	 * Method will serve as Exception to notify player of errors
+	 * @param titel
+	 * @param Header
+	 * @param content
+	 */
+	private void notifyError(String titel, String Header, String content  ) {
+		   Alert alert = new Alert(AlertType.WARNING);
+	        alert.initOwner(mainApp.getPrimaryStage());
+	        alert.setTitle(titel);
+	        alert.setHeaderText(Header);
+	        alert.setContentText(content);
+	        alert.showAndWait();
+	}
+
+	
+	private void talktoGhost() {
+
+		Room currentRoom = player.getCurrentRoom();
+		
+		if(currentRoom.isThereAGhost()) {
+			Ghost ghost = currentRoom.getGhost();
+			ghost.interactWithPlayer(player,textArea,textField);
+		}
+	}
+	
+	
+	
+	
+	
+
+
+
+	/**
+	 * @param mainApp the mainApp to set
+	 */
+	public void setMainApp(MainApp mainApp) {
+		this.mainApp = mainApp;
+	}
+	
+}

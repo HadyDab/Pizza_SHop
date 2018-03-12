@@ -1,0 +1,54 @@
+/**
+ * 
+ */
+package de.fh_zwickau.oose.zuul.model.NPC;
+
+import java.util.Iterator;
+
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+
+/**
+ * @author hady
+ *
+ */
+public class Ghost extends NPC {
+
+	public Ghost(String name) {
+		super(name);
+		// TODO Auto-generated constructor stub
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.fh_zwickau.oose.zuul.model.NPC.NPC#DisplayOptions(javafx.scene.control.
+	 * TextArea)
+	 */
+	@Override
+	public void DisplayOptions(TextArea output) {
+		output.appendText("\n Hi my name is "+ this.getName() +" how may i help you \n");
+		for (Iterator i = this.getOptions().values().iterator(); i.hasNext();) {
+			output.appendText("\n" + i.next() + " \n ");
+		}
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.fh_zwickau.oose.zuul.model.NPC.NPC#handleOption(java.lang.String,
+	 * javafx.scene.control.TextArea)
+	 */
+	@Override
+	public void handleOption(TextField input, TextArea output) {
+		if (this.getOptionsAnswers().containsKey(input.getText())) {
+			output.appendText("\n" + this.getOptionsAnswers().get(input.getText()) + "\n");
+		} else {
+
+		}
+
+	}
+
+}

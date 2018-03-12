@@ -1,0 +1,53 @@
+package de.fh_zwickau.oose.zuul.model.commands;
+
+import de.fh_zwickau.oose.zuul.model.Player;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+
+/**
+ * Implementation of the 'quit' user command.
+ *
+ * @author Michael Kolling
+ * @version 1.0 (December 2002)
+ */
+public class QuitCommand extends Command {
+
+    /**
+     * Constructor for objects of class QuitCommand
+     */
+    public QuitCommand() {
+    	
+    }
+
+    /**
+     * 'Quit' was entered. Check the argument to see whether
+     * we really quit the game. Return true, if we should quit, false
+     * otherwise.
+     */
+    public boolean execute(Player player) {
+        if(getSecondWord() == null) {
+            return true;
+        } else {
+            System.out.println("You can not leave the game.");
+            return false;
+        }
+    }
+
+    /**
+     *   Print Help Information for the Player
+     *   @return helpWord
+     */
+	@Override
+	public String getHelp() {
+		String helpWord = "Pres the [quit] button to exit from the Game.\n";
+		return helpWord;
+	}
+
+	@Override
+	public boolean executeGUI(Player player, TextArea output, ImageView roomview, ImageView posview, TextField input) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+}

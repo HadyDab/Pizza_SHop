@@ -1,0 +1,53 @@
+package de.fh_zwickau.oose.zuul.view;
+
+import de.fh_zwickau.oose.zuul.MainApp;
+import de.fh_zwickau.oose.zuul.model.House;
+import de.fh_zwickau.oose.zuul.model.Player;
+import de.fh_zwickau.oose.zuul.model.Room;
+import javafx.fxml.FXML;
+import javafx.scene.image.ImageView;
+
+public class ImageViewControler {
+	
+	@FXML
+	private ImageView image;
+	
+	private Player player;
+
+	private MainApp mainApp;
+	
+	private Room room;
+	
+	private House house;
+	
+	private GameControler gc;
+	
+	
+	public ImageViewControler() {
+		
+	}
+	
+	
+	/**
+	 *  Initiate this Controller, this method will be called in the main class
+	 */
+	public void initControler() {
+		
+	//TODO: NullPointer
+	//String direction = gc.getDirection();
+		
+	//System.out.println(gc.getDirection());
+		
+	//image.setImage(new Image(player.showlookingDirection(direction)));
+
+	}
+	
+	
+	/**
+	 * @param mainApp the mainApp to set
+	 */
+	public void setMainApp(MainApp mainApp) {
+		this.mainApp = mainApp;
+	}
+
+}

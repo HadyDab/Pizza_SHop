@@ -1,0 +1,25 @@
+/**
+ * 
+ */
+package de.fh_zwickau.oose.zuul.savadata;
+
+import java.io.Serializable;
+
+
+/**
+ * @author HadyDab
+ *
+ */
+public class SavaData implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 20L;
+	
+	private String curentRoomName;
+	
+	
+}
+
+

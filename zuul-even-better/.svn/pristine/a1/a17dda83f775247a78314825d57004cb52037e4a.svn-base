@@ -1,0 +1,34 @@
+package de.fh_zwickau.oose.zuul.model.items;
+
+import de.fh_zwickau.oose.zuul.model.Player;
+
+/**
+ * The abstract class item with a method useItem to use the Item.
+ * @author XardsLP
+ */
+public abstract class Item {
+	
+	/**
+	 * The Constructor of the item with a description of the item. TODO: itemDescription
+	 * @param itemDescription
+	 */
+	public Item() {
+		
+	}
+	
+	/**
+	 * The method to use the item.	
+	 * @param player the player they use the item
+	 * @param usage the object where the player use the item TODO: korrekt?
+	 */
+	public abstract void useItem(Player player, String usage);
+
+
+
+
+	
+	
+	
+	
+	
+}

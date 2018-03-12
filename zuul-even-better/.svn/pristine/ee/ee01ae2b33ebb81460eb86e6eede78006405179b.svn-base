@@ -1,0 +1,45 @@
+package de.fh_zwickau.oose.zuul.model.commands;
+
+import de.fh_zwickau.oose.zuul.model.Player;
+
+/**
+ * Implementation of the 'help' user command.
+ * These command return the Help Messages.
+ *
+ * @author Michael Kolling
+ * @version 1.0 (December 2002)
+ */
+public class HelpCommand extends Command {
+    private CommandWords commandWords;
+
+    /**
+     * Constructor for objects of class HelpCommand
+     */
+    public HelpCommand(CommandWords words) {
+    	commandWords = words;
+
+    }
+    
+	/**
+     * Print out some help information. Here we print some stupid,
+     * cryptic message and a list of the command words.
+     * Returns always false.
+     */
+    public boolean execute(Player player) {
+		if(hasSecondWord()) {
+			Command command = commandWords.get(getSecondWord());
+			System.out.println(command.getHelp()); 
+		} else {
+		    System.out.println("Your Command Words are:");
+		    getHelp(); 
+		    System.out.println("Type  [help] and any [Command Word] to see the function of this Command.");
+		} 
+    return false;
+    }
+
+	@Override
+	public String getHelp() {	
+		return " Type [help] without the square brackets to see all Command Words you can use. \n\n" + "Your Command Words are :\n"
+				+ ""+ commandWords.showAll() + "\n\n" + "Type  [help] and any [Command Word] to see the function of this Command.\n";
+	}
+}

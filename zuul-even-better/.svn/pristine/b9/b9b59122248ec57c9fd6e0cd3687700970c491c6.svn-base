@@ -1,0 +1,81 @@
+/**
+ * 
+ */
+package de.fh_zwickau.oose.zuul.view;
+
+import de.fh_zwickau.oose.zuul.MainApp;
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
+
+/**
+ * @author hady
+ *
+ */
+public class StartControler {
+	
+	@FXML
+	private TextField textField;
+	
+	private MainApp mainApp;
+	
+	
+	
+	public StartControler() {}
+	
+	
+	
+	
+	public void init() {
+		
+	}
+	
+	
+	
+	@FXML
+	private void handleStartNewButton() {
+		if(textField.getText().trim().isEmpty()) {
+			notifyError("Player's Name","Player's Name required","Please enter a Name");
+		} else {
+			String playersName = textField.getText();
+			mainApp.loadGameOverView(playersName);
+			
+		}
+		
+		
+	}
+	
+	
+	@FXML
+	private void handleLoadGamebutton() {
+		
+	}
+	
+	
+	
+	
+	/**
+	 * Method will serve as Exception to notify player of errors
+	 * @param titel
+	 * @param Header
+	 * @param content
+	 */
+	private void notifyError(String titel, String Header, String content  ) {
+		   Alert alert = new Alert(AlertType.INFORMATION);
+	        alert.initOwner(mainApp.getPrimaryStage());
+	        alert.setTitle(titel);
+	        alert.setHeaderText(Header);
+	        alert.setContentText(content);
+	        alert.showAndWait();
+	}
+	
+	
+	/**
+	 * @param mainApp the mainApp to set
+	 */
+	public void setMainApp(MainApp mainApp) {
+		this.mainApp = mainApp;
+	}
+
+}

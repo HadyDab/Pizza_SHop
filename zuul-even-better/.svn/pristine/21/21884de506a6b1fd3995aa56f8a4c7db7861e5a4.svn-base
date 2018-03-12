@@ -1,0 +1,48 @@
+
+package de.fh_zwickau.oose.zuul;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+import de.fh_zwickau.oose.zuul.model.Player;
+import de.fh_zwickau.oose.zuul.model.Room;
+import de.fh_zwickau.oose.zuul.model.NPC.Ghost;
+import de.fh_zwickau.oose.zuul.model.NPC.GoodGhost;
+
+/**
+ * @author HadyDab
+ *
+ */
+class TalkCommandTest {
+	
+	Room bedroom, toilet;
+	Player player;
+	Ghost helena;
+	
+
+	@Test
+	void test_if_player_Can_Talk_to_a_Ghost() {
+		bedroom = new Room("in the Bedroom");
+		toilet = new Room("in the Toilet");
+		player = new Player();
+		Ghost helena = new GoodGhost("helena",100);
+		 bedroom.setExit("south", toilet);
+		 toilet.setExit("north", bedroom);
+		 toilet.setGhost(helena);
+		 player.setCurrentRoom(bedroom);
+		 
+		 player.walk("south");
+		 assertNotNull(toilet.getGhost());
+		 
+		
+		
+	}
+	
+	
+	@Test
+	void test_if_Player_Can_Talk_To_No_Ghost() {
+		
+	}
+
+}

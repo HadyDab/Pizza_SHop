@@ -1,0 +1,28 @@
+package de.fh_zwickau.oose.zuul;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
+
+import de.fh_zwickau.oose.zuul.model.commands.CommandWords;
+
+/**
+ * JUnit Test Case Class for the CommandWords Class.
+ * @author XardsLP
+ *
+ */
+class CommandWordsTest {
+
+	private CommandWords cwords = new CommandWords();
+
+	/**
+	 * The method is testing whether it returns the correct number of Commands
+	 */
+	@Test
+	void testCommandSize() {
+		int actual = cwords.getCommands().size();
+		assertEquals(9, actual);
+	}
+
+
+}

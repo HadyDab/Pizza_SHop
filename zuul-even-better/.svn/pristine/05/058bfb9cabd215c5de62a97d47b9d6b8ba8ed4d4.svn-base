@@ -1,0 +1,99 @@
+/**
+ * 
+ */
+package de.fh_zwickau.oose.zuul.model.NPC;
+
+
+import java.util.HashMap;
+import java.util.Map;
+
+import de.fh_zwickau.oose.zuul.model.House;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+
+/**
+ * @author hady
+ *
+ */
+public abstract class NPC {
+	
+	private boolean isVisible;
+	private Map<String, String> options;
+	private Map<String, String> optionsAnswers;
+	private Map<String, String> image;
+	
+	private String name;
+	
+	public NPC(String name) {
+		this.name = name;
+		this.image = new HashMap<>();
+		this.options = new HashMap<>();
+		this.optionsAnswers = new HashMap<>();
+	}
+	
+	
+	public String getName() {
+		return this.name;
+	}
+	
+	public void addOptions(String optionsNumber, String Option) {
+		this.options.put(optionsNumber, Option);
+	}
+	
+	
+	public void addOptionanswer(String optionnumber,String answer) {
+		this.optionsAnswers.put(optionnumber, answer);
+	}
+	
+	public void addImage(String imagename,String imageLocation) {
+		this.image.put(imagename, imageLocation);
+	}
+	
+	
+	public String getImage(String imageName) {
+		return this.image.get(imageName);
+	}
+	
+	
+	
+	
+	/**
+	 * @return the taskcomplete
+	 */
+	public boolean isVisible() {
+		return isVisible;
+	}
+
+
+	/**
+	 * @param isVisible the taskcomplete to set
+	 */
+	public void setIsVisible(boolean isVisible) {
+		this.isVisible = isVisible;
+	}
+
+
+	/**
+	 * @return the options
+	 */
+	public Map<String, String> getOptions() {
+		return options;
+	}
+
+	
+	
+	
+
+	/**
+	 * @return the optionsAnswers
+	 */
+	public Map<String, String> getOptionsAnswers() {
+		return optionsAnswers;
+	}
+
+	public abstract void checktask(House house);
+	public abstract void DisplayOptions(TextArea output);
+	
+	public abstract void handleOption(TextField input,TextArea output);
+
+}

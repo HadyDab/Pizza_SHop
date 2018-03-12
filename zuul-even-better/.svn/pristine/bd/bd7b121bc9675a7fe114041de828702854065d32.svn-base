@@ -1,0 +1,55 @@
+package de.fh_zwickau.oose.zuul.model.commands;
+
+import de.fh_zwickau.oose.zuul.model.Player;
+import de.fh_zwickau.oose.zuul.model.Room;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+
+/**
+ * This command implement the Option to go back to the previous Room.
+ * @author HadyDab
+ */
+public class BackCommand extends Command {
+
+	/**
+	 *  Constructor for the Class BackCommand.
+	 */
+	public BackCommand() {
+
+	}
+
+	/**
+	 *   Check if player is coming from already visited room, if that is the case return to the previous room
+	 *   if not inform the player they can't go back since they are still in the same location.
+	 *   @param Player the player that is coming from a Room.
+	 */
+	@Override
+	public boolean execute(Player player) {
+		if(!player.previousVisitedRooms().isEmpty()) {
+		Room previousRoom =	player.popRoomfromStack();
+		player.setCurrentRoom(previousRoom);
+		System.out.println(previousRoom.getLongDescription());
+		} else {
+			System.out.println("You can only go back to a room that you has already visited");
+		}
+		return false;
+	}
+
+	 /**
+     *   This Method print Help Information to the Player
+     *   @return helpWord
+     */
+	@Override
+	public String getHelp() {
+		String helpWord = "Type [back] to go back to the previous Room.";
+		return helpWord;
+	}
+
+	@Override
+	public boolean executeGUI(Player player, TextArea output, ImageView roomview, ImageView posview, TextField input) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+}

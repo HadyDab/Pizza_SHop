@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.fh_zwickau.oose.zuul.view.HelpControler">
+   <children>
+      <VBox prefHeight="450.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Find and release the Ghost in this house . pay extra attention to the tips." GridPane.rowIndex="1" />
+                  <Label text="When you encouter a Ghost talk to them and find a way to release them." GridPane.rowIndex="2" />
+                  <Label text="Label" GridPane.rowIndex="3" />
+                  <Label text="Press the 'N','S','W','E'  to navigate through the Building" GridPane.rowIndex="4" />
+                  <Label text="Press the 'Talk' button to talk to a Ghost. remember ghost will only be visible after using" GridPane.rowIndex="5" />
+                  <Label text="a candle" GridPane.rowIndex="6" />
+                  <Label text="Press the 'Use' button to use an Item " GridPane.rowIndex="7" />
+                  <Label text="Press the 'Drop' button to drop an Item." GridPane.rowIndex="8" />
+                  <Label text="Press the 'Take' button to pick up items." GridPane.rowIndex="9" />
+                  <Label text="Label" GridPane.rowIndex="10" />
+                  <Label text="The 'Input' and 'Enter' can only be used to communicate with a Ghost." GridPane.rowIndex="11" />
+                  <Label text="Label" GridPane.rowIndex="12" />
+                  <Button mnemonicParsing="false" onAction="#handleClose" text="Close" GridPane.rowIndex="13" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </GridPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

@@ -1,0 +1,71 @@
+package de.fh_zwickau.oose.zuul.model.commands;
+
+import de.fh_zwickau.oose.zuul.model.Player;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+
+/**
+ * Implementation of the 'go' user command. 
+ * With this command you can go north/south/east/west 
+ * to enter to other rooms.
+ *
+ * @author Michael Kolling
+ * @version 1.0 (December 2002)
+ */
+public class GoCommand extends Command {
+
+    /**
+     * Constructor for objects of class GoCommand
+     */
+    public GoCommand() {
+    	
+    }
+
+    /**
+     * Try to go to one direction. If there is an exit, enter the new
+     * room, otherwise print an error message. Returns always 'false'.
+     * @param player the player that use the go command
+     */
+    public boolean execute(Player player) {
+        if(hasSecondWord()) {
+            String direction = getSecondWord();
+            player.walk(direction);
+            //System.out.println(house.getRooms().size());
+            //if (player.getCurrentRoom() == house.getRooms());
+        } else {
+            // if there is no second word, we don't know where to go...
+            System.out.println("Where do you wanna go?");
+        }
+        return false;
+    }
+    
+    /**
+     *   Print Help Information for the Player
+     *   @return helpWord
+     */
+	@Override
+	public String getHelp() {
+		String helpWord = "Type go and any available Exit to move towards this Direction\n";
+		return helpWord;
+	}
+
+	@Override
+	public boolean executeGUI(Player player, TextArea output,ImageView roomview,ImageView posview,TextField input) {
+		 if(hasSecondWord()) {
+	            String direction = getSecondWord();
+	            player.walkGUI(direction, output, roomview, posview);
+	        } else {
+	            // if there is no second word, we don't know where to go...
+	        	output.appendText("\n Where do you wanna go? \n");
+	            //System.out.println("Where do you wanna go?");
+	        }
+			
+			return false;
+	}
+	
+	
+	
+	
+
+}

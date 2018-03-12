@@ -1,0 +1,52 @@
+
+package de.fh_zwickau.oose.zuul.model;
+
+import java.util.Map;
+
+/**
+ * @author HadyDab
+ *
+ */
+public class StoryLine {
+		
+	Map<String,GameTask> taskstocomplete;
+	
+	public StoryLine() {
+		
+	}
+	
+	
+	
+	
+	public void prepareallTask() {
+	
+		GameTask firsttask,secondtask,thirdtask,fouthtask,fifthtask,sixthtask,
+		seventhtask,eigthtask,ninethtask,tenthtask;
+		
+		
+		
+		firsttask = new GameTask("firstTask");
+		secondtask = new GameTask("secondTask");
+		thirdtask = new GameTask("thirdTask");
+		fouthtask = new GameTask("fouthTask");
+		fifthtask = new GameTask("fifthTask");
+		sixthtask = new GameTask("sixthTask");
+		seventhtask = new GameTask("seventhTask");
+		eigthtask = new GameTask("eigthTask");
+		ninethtask = new GameTask("ninethTask");
+		tenthtask = new GameTask("tenthTask");
+		
+		
+		taskstocomplete.put(firsttask.getName(), firsttask);
+		taskstocomplete.put(secondtask.getName(), secondtask);
+		
+	
+		
+	}
+	
+	
+	
+	
+	
+
+}

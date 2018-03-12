@@ -1,0 +1,79 @@
+package de.fh_zwickau.oose.zuul;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+import de.fh_zwickau.oose.zuul.model.Player;
+import de.fh_zwickau.oose.zuul.model.Room;
+import de.fh_zwickau.oose.zuul.model.items.Key;
+
+/**
+ * JUnit Test Case Class for the TakeCommand Class.
+ * @author XardsLP
+ *
+ */
+class TakeCommandTest {
+	
+	Player player;
+	Room testroom1;
+	Room testroom2;
+	
+	
+	@Test
+	void testTake1Item() {
+		System.out.println("--------------------testTake1Item--------------------");
+		player = new Player();
+		testroom1 = new Room("in testroom1.");
+		
+		testroom1.addItemstoRoom("key", new Key());
+
+		player.setCurrentRoom(testroom1);
+
+		player.takeItem("key");
+		
+		assertTrue(player.getInventory().containsKey("key"));
+	}
+	
+	@Test
+	void testTake2Items() {
+		System.out.println("--------------------testTake2Items--------------------");
+		player = new Player();
+		testroom1 = new Room("in testroom1.");
+		testroom2 = new Room("in testroom2.");
+		
+		
+		testroom1.addItemstoRoom("key", new Key());
+		testroom1.setExit("north", testroom2);
+		
+		testroom2.addItemstoRoom("key2", new Key());
+		testroom2.setExit("south", testroom1);
+		
+		player.setCurrentRoom(testroom1);
+		
+		player.takeItem("key");
+		
+		player.walk("north");
+		
+		player.takeItem("key2");
+		
+		assertTrue(player.getInventory().containsKey("key"));
+		assertTrue(player.getInventory().containsKey("key2"));
+	}
+	
+	
+	@Test
+	void test_take_item_when_no_item() {
+		System.out.println("--------------------testNoItem--------------------");
+		player = new Player();
+		testroom1 = new Room("in testroom1.");
+		player.setCurrentRoom(testroom1);
+		player.takeItem("key");
+		
+		assertFalse(player.getInventory().containsKey("key"));
+		
+	}
+	
+
+
+}

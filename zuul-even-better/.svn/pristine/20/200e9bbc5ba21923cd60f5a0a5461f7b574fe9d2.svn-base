@@ -1,0 +1,94 @@
+package de.fh_zwickau.oose.zuul;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+import de.fh_zwickau.oose.zuul.model.Player;
+import de.fh_zwickau.oose.zuul.model.Room;
+import de.fh_zwickau.oose.zuul.model.commands.BackCommand;
+import de.fh_zwickau.oose.zuul.model.commands.Command;
+
+/**
+ * JUnit Test Case Class for the BackCommand Class.
+ * @author XardsLP
+ *
+ */
+class BackCommandTest {
+	
+	Room mainEntrance = new Room("Outside");
+	Room corridor = new Room("Hall");
+	Room kitchen = new Room("Kitchen");
+	Room livingRoom = new Room("Living Room");
+	Room bathRoom = new Room("BathRoom");
+	Player player1 = new Player();
+	Command backCommand = new BackCommand();
+
+	/**
+     * Create a view test rooms and set their exits.
+     * Let the player walk into a direction.
+     * Use the back command and check if it returns the last room.
+     */
+	@Test
+	void testBackCommand_go_Back_Once() {
+		System.out.println("--------------------testBackCommand_go_Back_Once--------------------");
+
+		mainEntrance.setExit("north", corridor);
+		corridor.setExit("south", mainEntrance);
+		corridor.setExit("west", kitchen);
+		kitchen.setExit("east", corridor);
+
+		player1.setCurrentRoom(mainEntrance);
+		player1.walk("north");
+		
+		backCommand.execute(player1);
+		
+		assertEquals(player1.getCurrentRoom(), mainEntrance);
+	}
+	
+	
+	@Test
+	void textBackComman_go_Back_more_than_Once() {
+		System.out.println("--------------------textBackComman_go_Back_more_than_Once--------------------");
+		
+		mainEntrance.setExit("north", corridor);
+		corridor.setExit("south", mainEntrance);
+		corridor.setExit("west", kitchen);
+		corridor.setExit("north", livingRoom);
+		livingRoom.setExit("south", corridor);
+		livingRoom.setExit("west", bathRoom);
+		kitchen.setExit("east", corridor);
+		
+		player1.setCurrentRoom(mainEntrance);
+		player1.walk("north");
+		player1.walk("north");
+		player1.walk("west");
+		
+		backCommand.execute(player1);
+		backCommand.execute(player1);
+		backCommand.execute(player1);
+		
+		assertEquals(player1.getCurrentRoom(), mainEntrance);
+	}
+	
+	
+	@Test
+	void textBackComman_cant_go_back() {
+		System.out.println("--------------------textBackComman_cant_go_back--------------------");
+		
+		mainEntrance.setExit("north", corridor);
+		corridor.setExit("south", mainEntrance);
+		corridor.setExit("west", kitchen);
+		corridor.setExit("north", livingRoom);
+		livingRoom.setExit("south", corridor);
+		livingRoom.setExit("west", bathRoom);
+		kitchen.setExit("east", corridor);
+		
+		player1.setCurrentRoom(mainEntrance);
+		backCommand.execute(player1);
+		
+		assertEquals(player1.getCurrentRoom(), mainEntrance);
+		
+	}
+
+}

@@ -1,0 +1,346 @@
+package de.fh_zwickau.oose.zuul.model;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Stack;
+import java.util.Map.Entry;
+
+import de.fh_zwickau.oose.zuul.model.NPC.Ghost;
+import de.fh_zwickau.oose.zuul.model.NPC.NPC;
+import de.fh_zwickau.oose.zuul.model.items.Item;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.util.Callback;
+
+/**
+ * This class represents players in the game. Each player has a current
+ * location.
+ * 
+ */
+public class Player {
+
+	private Room currentRoom;
+	private Stack<Room> previousLocations = new Stack<Room>();
+	private Map<String, Item> inventory = new HashMap<>();
+
+	// private int inventoryCapacity;
+
+	/**
+	 * Constructor for class Player
+	 */
+	public Player() {
+		currentRoom = null;
+		// inventoryCapacity = 1;
+	}
+
+	/**
+	 * Return the current room for this player.
+	 * 
+	 * @return currentRoom the room to be return
+	 */
+	public Room getCurrentRoom() {
+		return currentRoom;
+	}
+
+	/**
+	 * Set the current Location for this player.
+	 * 
+	 * @param room
+	 *            the room they will set
+	 */
+	public void setCurrentRoom(Room room) {
+		currentRoom = room;
+	}
+
+	/**
+	 * Pushes a room onto the top of this stack.
+	 * 
+	 * @param Room
+	 *            the room to be pushed onto this stack.
+	 */
+	public void pushRoomintoStack(Room room) {
+		previousLocations.push(room);
+	}
+
+	/**
+	 * Removes the room at the top of this stack and returns that room,
+	 * 
+	 * @return Room The room at the top of this stack (the last room that was push).
+	 */
+	public Room popRoomfromStack() {
+		return (Room) previousLocations.pop();
+	}
+
+	/**
+	 * Return the whole Stack
+	 * 
+	 * @return Stack the stack with the previous Locations
+	 */
+	public Stack<Room> previousVisitedRooms() {
+		return previousLocations;
+	}
+
+	/**
+	 * Players Inventory to store any picked item
+	 * 
+	 * @param name
+	 *            the name of the item
+	 * @param item
+	 *            the item object
+	 */
+	public void addItemtoInventory(String name, Item item) {
+		inventory.put(name, item);
+	}
+
+	/**
+	 * A simple getter Method to return all Items stored in this Inventory
+	 * 
+	 * @return inventory the map with String and the item object
+	 */
+	public Map<String, Item> getInventory() {
+		return inventory;
+	}
+
+	/**
+	 * Try to walk in a given direction. If there is a door this will change the
+	 * player's location.
+	 * 
+	 * @param direction
+	 *            the given direction
+	 */
+	public boolean walk(String direction) {
+		// Try to leave current room.
+		previousLocations.push(currentRoom);
+		Optional<Room> whereToGo = currentRoom.getExit(direction);
+		Room nextRoom;
+		if (!whereToGo.isPresent()) {
+			return false;
+			// System.out.println("In this direction is no exit.");
+		} else {
+			nextRoom = whereToGo.get();
+			if (nextRoom.isDoorLock()) {
+				return false;
+				// System.out.println("This Door is locked you need a Key to open it ");
+			} else {
+				setCurrentRoom(nextRoom);
+				return true;
+			}
+		}
+	}
+
+	/**
+	 * Look around this room to find items laying around. If there are items in this
+	 * room, display them to the player else inform player there are no items
+	 * around.
+	 */
+	public void lookAround() {
+
+		currentRoom.showAllItems();
+		currentRoom.isThereNPC();
+
+	}
+
+	/**
+	 * Use a specified item from player's Inventory if this item exist, if that is
+	 * not the case inform the Player that he/she does not have such item in their
+	 * Inventory. the item name is given by Player and the purpose of usage. Example
+	 * 'use key north' will use an Item name Key to open a Door in the given
+	 * direction
+	 * 
+	 * @param itemName
+	 *            the name of the item
+	 * @param forWhat
+	 *            the direction for what you wanna use the item
+	 */
+	public void useItemFromInventory(String itemName, String forWhat) {
+
+		if (inventory.containsKey(itemName)) {
+			Item item = inventory.get(itemName);
+			item.useItem(this, forWhat);
+			// inventory.remove(itemName);
+		} else {
+			System.out.println("You don't have this item in your Inventory");
+		}
+
+	}
+
+	/**
+	 * Take a specified item from this room if this item exist, else inform the
+	 * player there is no such item in this Room. Example 'take key' will check if
+	 * an item name Key can be found in the current Room, if that is the case, this
+	 * item will be picked and stored in player's Inventory, else player will be
+	 * inform there is no such item in the current room.
+	 * 
+	 * @param itemName
+	 */
+	public void takeItem(String itemName) {
+
+		Item item = currentRoom.giveThisItem(itemName);
+		addItemtoInventory(itemName, item);
+		System.out.println("The item " + itemName + " has been added to your Inventory");
+		currentRoom.deleteThisItem(itemName);
+
+	}
+
+	/**
+	 * Drop an item from player's Inventory in the current location where the player
+	 * is. If the item is not in player's inventory , inform the player. Example
+	 * "drop key" will check if player has an item name Key, if that is the case
+	 * this item will be drop in the current Location, else player will be inform of
+	 * not having such an item.
+	 * 
+	 * @param itemName
+	 *            the name of the item
+	 */
+	public void dropItem(String itemName) {
+		if (inventory.containsKey(itemName)) {
+			Item item = inventory.get(itemName);
+			currentRoom.addItemstoRoom(itemName, item);
+			inventory.remove(itemName);
+			// inventoryCapacity += 1;
+			System.out.println("The item " + itemName + " has been droped.");
+		} else {
+			System.out.println("The item you are trying to drop is not in your Inventory.");
+		}
+
+	}
+
+	/**
+	 * Show the list of all the items in player's Inventory to the.
+	 */
+	public void showMyInventory() {
+		if (inventory.isEmpty()) {
+			System.out.println("You have no items in your Inventory.");
+		} else {
+			System.out.println("Your inventory contains the following items:");
+			for (Iterator i = inventory.keySet().iterator(); i.hasNext();) {
+				System.out.print("[" + i.next() + " ] ");
+			}
+
+		}
+
+	}
+
+	public void talkGUI(TextField input, TextArea output) {
+		Room room = this.currentRoom;
+		if (room.isThereNPC()) {
+			NPC npc = room.getNPC();
+			npc.handleOption(input, output);
+		} else {
+			output.appendText("\n There is no npc to talk to \n");
+		}
+
+	}
+
+	public String showlookingDirection(String direction) {
+		return currentRoom.getImageFromDirection(direction);
+	}
+
+	public String showExitOfCurreentRoom() {
+		return currentRoom.getLongDescription();
+	}
+
+	public Optional<Room> currentRoomhasExit(String exist) {
+		return currentRoom.getExit(exist);
+	}
+
+	public void walkGUI(String direction, TextArea output, ImageView roomview, ImageView posview) {
+		// Try to leave current room.
+		previousLocations.push(currentRoom);
+		Optional<Room> whereToGo = currentRoom.getExit(direction);
+		Room nextRoom;
+		if (!whereToGo.isPresent()) {
+			output.appendText("\n There is no exit to this direction \n");
+		} else {
+			nextRoom = whereToGo.get();
+			if (nextRoom.isDoorLock()) {
+				output.appendText(" This Door is locked find a Key to open it \n");
+			} else {
+				setCurrentRoom(nextRoom);
+				output.appendText("\n" + showExitOfCurreentRoom() + "\n");
+				roomview.setImage(new Image(nextRoom.getImageFromDirection(direction)));
+				posview.setImage(new Image(nextRoom.getPlayerPosition(direction)));
+
+			}
+		}
+	}
+	
+	
+	public void useItemGUI(String itemName,String usage,TextArea output) {
+		if(inventory.containsKey(itemName)) {
+			Item item = inventory.get(itemName);
+			if(item.useItem(this, usage)){
+				output.appendText("\n The item " + itemName + " has been used succesfully\n");
+			} else {
+				output.appendText("\n The item " + itemName + " can not be used here \n");
+			}
+		} else {
+			//output.appendText("\n The item " + itemName + " is not in your Inventory \n");
+		}
+		
+	}
+	
+
+	/**
+	 * List all items in player inventory on the table.
+	 * @param playerInventory, list of items in inventory
+	 * @param itemNameinPlayerInventory,name of items to be displayed
+	 */
+	public void showInvenoryGUI(TableView<Map.Entry<String, Item>> playerInventory,
+			TableColumn<Map.Entry<String, Item>, String> itemNameinPlayerInventory) {
+
+		itemNameinPlayerInventory.setCellValueFactory(
+				new Callback<TableColumn.CellDataFeatures<Map.Entry<String, Item>, String>, ObservableValue<String>>() {
+					@Override
+					public ObservableValue<String> call(CellDataFeatures<Entry<String, Item>, String> p) {
+						return new SimpleStringProperty(p.getValue().getKey());
+					}
+
+				});
+		ObservableList<Entry<String, Item>> inventory = FXCollections
+				.observableArrayList(this.getInventory().entrySet());
+		playerInventory.setItems(inventory);
+
+	}
+
+	/**
+	 * Look for Items in the room the player is , and display this item in the table
+	 * @param itemName, name of items to be displayed
+	 * @param itemsInRoom, list of items in the room
+	 * @param output, inform player is there is no item in the room
+	 */
+	public void lookForItemsinThisRoomGui(TableColumn<Map.Entry<String, Item>, String> itemName,
+			TableView<Map.Entry<String, Item>> itemsInRoom, TextArea output) {
+
+		itemName.setCellValueFactory(
+				new Callback<TableColumn.CellDataFeatures<Map.Entry<String, Item>, String>, ObservableValue<String>>() {
+					@Override
+					public ObservableValue<String> call(CellDataFeatures<Entry<String, Item>, String> p) {
+						return new SimpleStringProperty(p.getValue().getKey());
+					}
+				});
+
+		Room room = this.getCurrentRoom();
+
+		ObservableList<Entry<String, Item>> items = FXCollections.observableArrayList(room.getAllItems().entrySet());
+		if (!items.isEmpty()) {
+			itemsInRoom.setItems(items);
+		} else {
+			items = null;
+			itemsInRoom.setItems(items);
+			output.appendText("There are no items here. \n\n");
+		}
+	}
+
+}

@@ -1,0 +1,406 @@
+package de.fh_zwickau.oose.zuul.view;
+
+import java.util.Map;
+import java.util.Map.Entry;
+
+import de.fh_zwickau.oose.zuul.MainApp;
+import de.fh_zwickau.oose.zuul.model.GameTask;
+import de.fh_zwickau.oose.zuul.model.House;
+import de.fh_zwickau.oose.zuul.model.Parser2;
+import de.fh_zwickau.oose.zuul.model.Player;
+import de.fh_zwickau.oose.zuul.model.Room;
+import de.fh_zwickau.oose.zuul.model.NPC.Ghost;
+import de.fh_zwickau.oose.zuul.model.NPC.NPC;
+import de.fh_zwickau.oose.zuul.model.commands.Command;
+import de.fh_zwickau.oose.zuul.model.commands.CommandWords;
+import de.fh_zwickau.oose.zuul.model.items.Item;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
+import javafx.util.Callback;
+
+public class GameControler {
+	
+	@FXML
+	private TextArea textArea;
+	
+	@FXML
+	private TextField textField;
+	
+	@FXML
+	private Button east, north, south, west;
+	
+	@FXML
+	private Button take, drop, use, look, showinventory;
+	
+	@FXML
+	private Button quit, help, enter;
+	
+	@FXML
+    private ImageView imageView, npcImageView;
+	
+	@FXML
+    private ImageView positionView;
+	
+	@FXML
+    private ImageView inventoryView;
+	
+	@FXML
+    private ImageView roomitemsView;
+	
+	@FXML
+	private TableView<Map.Entry<String, Item>> itemsInRoom;
+		
+	@FXML
+	private TableColumn<Map.Entry<String,Item>, String> itemName;
+	
+	@FXML
+	private TableView<Map.Entry<String, Item>>  playerInventory;
+	
+	@FXML
+	private TableColumn<Map.Entry<String, Item>, String> itemNameinPlayerInventory;
+	
+	@FXML
+	private Text position;
+	
+	@FXML
+	private Text tips;
+	
+	private MainApp mainApp;
+	private Player player;
+	private House hellwack;
+	private Parser2 parser;
+	private Command command;
+	private CommandWords commands;
+	private Room room;
+	private GameTask gametask;
+
+	public GameControler() {
+		
+	}
+	
+	
+	
+	/**
+	 *  Initiate this Controller, this method will be called in the main class
+	 */
+	public void initControler(String playersName) {
+		initialGame(playersName);
+
+		//imageView.setImage(new Image(player.showlookingDirection("south")));
+		//positionView.setImage(new Image("file:src/resources/positions/Outside.png"));
+		
+		listPlayerInventory();
+	}
+	
+	
+	/**
+	 *  When the enter button is press an a Command will be executed base on what
+	 *  the player key in
+	 */
+	public void handleEnter() {	
+		player.talkGUI(textField, textArea);
+		 lookForItemsinThisRoom();
+		 listPlayerInventory();
+		//executeCommand(command);
+		textField.clear();		
+	}
+	
+	/**
+	 *  When the button north is press player move towards this direction
+	 */
+	public void handleNorthButton() {
+		goTothisDirection("north");	
+		lookForItemsinThisRoom();
+		listPlayerInventory();
+		controllTips();
+		
+	}
+	
+	/**
+	 *  When the button south is press player move towards this direction
+	 */
+	public void handleSouthButton(){
+		goTothisDirection("south");
+		lookForItemsinThisRoom();
+		listPlayerInventory();
+		controllTips();
+	}
+	
+	/**
+	 * When the button west is press player move towards this direction
+	 */
+	 public void handleWestButton(){
+		 goTothisDirection("west");
+		 lookForItemsinThisRoom();
+		 listPlayerInventory();
+		 controllTips();
+	 }
+	
+	 /**
+	  * When the button east is press player move towards this direction
+	  */
+	 public void handleEastButton(){
+		 goTothisDirection("east");
+		 lookForItemsinThisRoom();
+		 listPlayerInventory();
+		 controllTips();
+	 }
+	 
+		
+		/**
+		 *   When the button talk is press player will be able to communicate with an Npc,
+		 *   if there is one in the room and player has summon the Npc. if that is not the case
+		 *   player will be inform.
+		 */
+		@FXML
+		private void handleTalkButton() {
+			Room room = player.getCurrentRoom();
+			if(room.isThereNPC()) {
+				NPC npc = room.getNPC();
+				if(npc.isVisible()) {
+					npcImageView.setImage(new Image(npc.getImage(room.getShortDescription())));
+					npc.DisplayOptions(textArea);
+					npc.checktask(hellwack);
+				} else {
+					textArea.appendText("\n There is a Ghost in this room but you have not summon it yet "
+							+ " Use a Candle to summon this ghost \n");
+				}
+				
+			}	else {
+				textArea.appendText("\n There is no Npc here \n");
+			}
+		}
+		
+		/**
+		 *  When the button save is press the current state of the game will be saved
+		 */
+		@FXML
+		private void handleSaveButton() {
+			try {
+				
+			} catch(Exception e) {
+				
+			}
+		}
+		
+		/**
+		 *  When the button load is press the last save state of the game will be loaded
+		 */
+		@FXML
+		private void handleLoadButton() {
+			try {
+				
+			} catch(Exception e) {
+				
+			}
+		}
+		
+		
+		
+		
+		/**
+		 *  Player will pick up an item after selecting this item, if no item selected,player will be notify 
+		 */
+		@FXML
+		private void handleTakeButton() {
+			int selectedIndex = itemsInRoom.getSelectionModel().getSelectedIndex();
+			if(selectedIndex >= 0) {
+				Item item = (Item) itemsInRoom.getItems().get(selectedIndex).getValue();
+				String itemName =  itemsInRoom.getItems().get(selectedIndex).getKey();
+				player.addItemtoInventory(itemName, item);
+				Room room = player.getCurrentRoom();
+				room.deleteThisItem(itemName);
+				lookForItemsinThisRoom();
+				listPlayerInventory();
+		
+			} else {
+				notifyError("No Selection", "", "You most Select an Item to able to take it ");
+			}	
+		}
+		
+		
+		
+		@FXML
+		private void handleDropButton() {
+			int selectedIndex = playerInventory.getSelectionModel().getSelectedIndex();
+			if(selectedIndex >= 0) {
+				String itemName =  playerInventory.getItems().get(selectedIndex).getKey();
+				player.dropItem(itemName);
+				lookForItemsinThisRoom();
+				listPlayerInventory();
+				
+			} else {
+				notifyError("No Selection", "", "You most Select an Item to able to drop it ");
+			}	
+			
+		}
+		
+		
+		@FXML
+		private void handleUseButton() {
+			int selectedIndex = playerInventory.getSelectionModel().getSelectedIndex();
+			if(selectedIndex >= 0) {
+				String itemName =  playerInventory.getItems().get(selectedIndex).getKey();
+				player.useItemGUI(itemName, "", textArea);
+				player.dropItem(itemName);
+				lookForItemsinThisRoom();
+				listPlayerInventory();
+				
+			} else {
+				notifyError("No Selection", "", "You most Select an Item to able to use it ");
+			}	
+		}
+		
+		
+		
+		/**
+		 *  Game will quit
+		 */
+		@FXML
+		private void handleQuitButton() {
+			
+			mainApp.loadStartPage();
+			
+		}
+		
+		
+		
+		/**
+		 * 
+		 */
+		@FXML
+		private void handleImageView() {
+			
+			mainApp.loadImageView();
+			
+		}
+		
+		
+		/**
+		 * 
+		 */
+		@FXML
+		private void handleMissionsView() {
+			
+			mainApp.loadMissionsView();
+			
+		}
+		
+		/**
+		 * This method moves player to the giving direction 
+		 * @param direction in which player is to move
+		 */
+		private void goTothisDirection(String direction) {
+			
+			player.walkGUI(direction, textArea, imageView, positionView);
+			
+		}
+		
+		
+
+		/**
+		 * 	 When Player press the button look the table will list all the key value of the current room items
+		 *   Method will Wrap current room items from map to an ObservableList and extract the key to the Column ItemName
+		 */
+		private void lookForItemsinThisRoom(){
+		
+			player.lookForItemsinThisRoomGui(itemName, itemsInRoom, textArea);
+					
+		}
+		
+		
+		/**
+		 *   List all the items player has in his/her Inventory
+		 */
+		public void listPlayerInventory() {
+			player.showInvenoryGUI(playerInventory, itemNameinPlayerInventory);			
+		}
+	
+	
+	/**
+	 *  This Method initiate all the required class for playing the game
+	 */
+	private void initialGame( String playersName) {
+		gametask = new GameTask("task1");
+		parser = new Parser2();
+		player = new Player();
+		hellwack = new House("HellWack Villa");
+		hellwack.buildHouseWithRooms(player);
+		imageView.setImage(new Image(player.showlookingDirection("south")));
+		Room room = player.getCurrentRoom();
+		positionView.setImage(new Image(room.getPlayerPosition("south")));
+		lookForItemsinThisRoom();
+		listPlayerInventory();
+		commands = new CommandWords();
+		textArea.appendText(printWelcome(playersName ) + "\n");
+		textArea.appendText(player.showExitOfCurreentRoom() + "\n");
+		controllTips();
+	}
+	
+	
+	
+	/**
+	 *  This Method return the Welcome message when a player start playing the game  
+	 * @return welcome
+	 */
+	private String printWelcome(String playersName ) {
+		String welcome = "\n Welcome to the late Mr Hellwack Villa Detective " + playersName + " \n\n"
+             + "\n You have been invited by the family of late Mr Hellwack to their Greatgrandfather's Villa.\n"
+             + "\n There have been report by the neighbors of paranomal Activities in the Villa.\n"
+             + "\n The Family wants you to check the buildings for this paranomal activities and report back.\n "
+             + "\n Press the [help] button for help. \n" ;
+			return welcome;	
+	 
+	}
+	
+	
+	private void controllTips() {
+		Room room = player.getCurrentRoom();
+		if(room.isThereNPC()) {
+			tips.setText("Pres the Button talk i have a feeling there is something here");
+		} else {
+			tips.setText("Always check the tips ... might come in handy");
+		}
+	}
+	
+	
+	/**
+	 * Method will serve as Exception to notify player of errors
+	 * @param titel
+	 * @param Header
+	 * @param content
+	 */
+	private void notifyError(String titel, String Header, String content  ) {
+		   Alert alert = new Alert(AlertType.WARNING);
+	        alert.initOwner(mainApp.getPrimaryStage());
+	        alert.setTitle(titel);
+	        alert.setHeaderText(Header);
+	        alert.setContentText(content);
+	        alert.showAndWait();
+	}
+
+
+	/**
+	 * @param mainApp the mainApp to set
+	 */
+	public void setMainApp(MainApp mainApp) {
+		this.mainApp = mainApp;
+	}
+
+}

@@ -1,0 +1,53 @@
+package de.fh_zwickau.oose.zuul.model.commands;
+
+import de.fh_zwickau.oose.zuul.model.Player;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+
+/**
+ * The take command to take a item from the current room.
+ * @author XardsLP
+ */
+public class TakeCommand extends Command {
+	
+	
+	/**
+	 *  Take a specified item from the current room, if this item exist, if not inform the Player
+	 *  @param player the player that take the item
+	 *  @return boolean default false
+	 */
+	@Override
+	public boolean execute(Player player) {
+		if(hasSecondWord()) {
+			String itemName = getSecondWord();
+			player.takeItem(itemName);
+		} 
+		return false;
+	}
+	
+	/**
+	 * The help information to help the player with the syntax of the commands.
+	 */
+	@Override
+	public String getHelp() {
+		String help = "Select an Item from the Item in Room and Press the [take] button  to pick this Item";
+		return help;
+	}
+
+	@Override
+	public boolean executeGUI(Player player, TextArea output,ImageView roomview,ImageView posview,TextField input) {
+		
+		if(hasSecondWord()) {
+			String itemName = getSecondWord();
+			player.takeItem(itemName);
+			output.appendText("\n This" + itemName + "has been take \n");
+		} 
+		return false;
+		
+	}
+	
+	
+	
+
+}

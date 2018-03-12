@@ -1,0 +1,45 @@
+package de.fh_zwickau.oose.zuul;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+import de.fh_zwickau.oose.zuul.model.House;
+import de.fh_zwickau.oose.zuul.model.Player;
+import de.fh_zwickau.oose.zuul.model.Room;
+import de.fh_zwickau.oose.zuul.model.items.Key;
+
+/**
+ * JUnit Test Case Class for the LookCommand Class.
+ * @author XardsLP
+ *
+ */
+class LookCommandTest {
+	
+	Player player = new Player();
+	Room testroom1 = new Room("in testroom1.");
+	House house = new House("Testhouse");
+
+	@Test
+	void testLookForItem() {
+		System.out.println("--------------------testLookForItem--------------------");
+		testroom1.addItemstoRoom("key", new Key());
+		
+		player.setCurrentRoom(testroom1);
+		
+		player.lookAround();
+		
+		assertTrue(testroom1.getAllItems().containsKey("key"));
+	}
+	
+	@Test 
+	void testLookForItemButNull() {
+		System.out.println("--------------------testLookForItemButNull--------------------");
+		player.setCurrentRoom(testroom1);
+		
+		player.lookAround();
+		
+		assertTrue(testroom1.getAllItems().isEmpty());
+	}
+
+}

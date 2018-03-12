@@ -1,0 +1,119 @@
+/**
+ * 
+ */
+package de.fh_zwickau.oose.zuul.model.NPC;
+
+
+import java.util.HashMap;
+import java.util.Map;
+
+import de.fh_zwickau.oose.zuul.model.GameWorld;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+
+/**
+ * Class NPC - a npc in an adventure game.
+ *
+ * This class is part of the "Ghost House" application.
+ * "Ghost House" is a very simple, text based adventure game.
+ * 
+ * The NPC can interact with player 
+ * @author hady
+ *
+ */
+public abstract class NPC {
+	
+	private boolean isVisible;
+	private Map<String, String> options;
+	private Map<String, String> optionsAnswers;
+	private Map<String, String> image;
+	
+	private String name;
+	
+	public NPC(String name) {
+		this.name = name;
+		this.image = new HashMap<>();
+		this.options = new HashMap<>();
+		this.optionsAnswers = new HashMap<>();
+	}
+	
+	
+	public String getName() {
+		return this.name;
+	}
+	
+	public void addOptions(String optionsNumber, String Option) {
+		this.options.put(optionsNumber, Option);
+	}
+	
+	
+	public void addOptionanswer(String optionnumber,String answer) {
+		this.optionsAnswers.put(optionnumber, answer);
+	}
+	
+	public void addImage(String imagename,String imageLocation) {
+		this.image.put(imagename, imageLocation);
+	}
+	
+	
+	public String getImage(String imageName) {
+		return this.image.get(imageName);
+	}
+	
+	
+	
+	
+	/**
+	 * @return the taskcomplete
+	 */
+	public boolean isVisible() {
+		return isVisible;
+	}
+
+
+	/**
+	 * @param isVisible the taskcomplete to set
+	 */
+	public void setIsVisible(boolean isVisible) {
+		this.isVisible = isVisible;
+	}
+
+
+	/**
+	 * @return the options
+	 */
+	public Map<String, String> getOptions() {
+		return options;
+	}
+
+	
+	
+	
+
+	/**
+	 * @return the optionsAnswers
+	 */
+	public Map<String, String> getOptionsAnswers() {
+		return optionsAnswers;
+	}
+	
+	/**
+	 * Check the task given to the player
+	 * @param gameWorld
+	 */
+	public abstract void checktask(GameWorld gameWorld);
+	
+	/**
+	 * Display the options of the npc to the player
+	 * @param output
+	 */
+	public abstract void DisplayOptions(TextArea output);
+	
+	/**
+	 * Handle the input of the player 
+	 * @param input- player input word
+	 * @param output- npc response
+	 */
+	public abstract void handleOption(TextField input,TextArea output);
+
+}

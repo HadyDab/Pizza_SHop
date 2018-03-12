@@ -1,0 +1,30 @@
+package de.fh_zwickau.oose.zuul.model.commands;
+
+import de.fh_zwickau.oose.zuul.model.Player;
+
+/**
+ * the LookCommand to use the command 'look' and see which items are in the room.
+ * @author XardsLP
+ */
+public class LookCommand extends Command {
+
+	/**
+	 *  Look around the current room where the player is.
+	 *  @return boolean default is false
+	 */
+	@Override
+	public boolean execute(Player player) {
+		player.lookAround();
+		return false;
+	}
+
+	/**
+	 * The help information for the player what the command do.
+	 */
+	@Override
+	public String getHelp() {
+		String help = "Type [look] without the square brackets to look around the current room and see if there are items in this room.\n";
+		return help;
+	}
+
+}

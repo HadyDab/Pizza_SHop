@@ -1,0 +1,71 @@
+
+package de.fh_zwickau.oose.zuul.model.NPC;
+
+
+import de.fh_zwickau.oose.zuul.model.Player;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+
+/**
+ * @author HadyDab
+ *
+ */
+public class GoodGhost extends Ghost {
+
+	/**
+	 * @param name
+	 * @param health
+	 */
+	public GoodGhost(String name, int health) {
+		super(name, health);
+	}	
+	
+
+
+	/* (non-Javadoc)
+	 * @see de.fh_zwickau.oose.zuul.model.Ghost#interactWithPlayer(de.fh_zwickau.oose.zuul.model.Player)
+	 */
+	@Override
+	public void interactWithPlayer(Player player,TextArea output,TextField input) {	
+		output.appendText("\n Hi my name is HH What are you doing here ? \n");	
+		
+		String content = "\n Choose options.\n\n"
+                + "\n [1] I need to find the burialground of mr Desmond Hellwark\n"
+                + "\n [2] How can i get rid of the ghost in this Villa\n"
+                + "\n [3] go back";
+		output.appendText(content);
+		
+		TALK:
+		while(true) {
+//			System.out.println(content);
+			
+			switch (input.getText()) {
+			case "1":
+				output.appendText("\n Go to the Garden, you will find what you are looking for \n"); 
+				
+				continue TALK;
+			case "2":
+				output.appendText("\n Am sorry i cant help you at the moment \n");
+				
+				continue TALK;
+				
+			case "3":
+				output.appendText("\n Bye be safe, am always available to help \n");
+				return;
+			default:
+				output.appendText("\n Select a valid option \n");
+				
+				break;
+			}
+			
+		}
+		
+		
+		
+	}
+
+
+	
+	
+	
+}

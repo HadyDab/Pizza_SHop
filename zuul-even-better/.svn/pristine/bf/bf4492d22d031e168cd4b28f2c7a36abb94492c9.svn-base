@@ -1,0 +1,31 @@
+package de.fh_zwickau.oose.zuul.model.commands;
+
+import de.fh_zwickau.oose.zuul.model.Player;
+
+/**
+ * This command implements the method to drop a item into a room.
+ * @author Hady
+ */
+public class DropItemCommand extends Command {
+	
+	/**
+	 *  Drop item specified my a Player if he/she has this item in their Inventory 
+	 */
+	@Override
+	public boolean execute(Player player) {
+		if(hasSecondWord()) {
+			String secondword = getSecondWord();
+			player.dropItem(secondword);
+		}
+		return false;
+	}
+
+	
+	
+	@Override
+	public String getHelp() {
+		String help = " Type [drop] and [item name] without the square brackets to drop the item at the current Location\n";
+		return help;
+	}
+
+}

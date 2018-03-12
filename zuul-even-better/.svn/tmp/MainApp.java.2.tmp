@@ -1,0 +1,248 @@
+package de.fh_zwickau.oose.zuul;
+
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.io.IOException;
+
+import de.fh_zwickau.oose.zuul.view.GameControler;
+
+import de.fh_zwickau.oose.zuul.view.MissionsControler;
+import de.fh_zwickau.oose.zuul.view.StartControler;
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+
+public class MainApp extends Application {
+	
+	private Stage primaryStage;
+	private BorderPane root;
+	private AnchorPane root2;
+
+	private Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+
+	@Override
+	public void start(Stage primaryStage) {
+		this.primaryStage = primaryStage;
+		this.primaryStage.setTitle("GhostHouse");
+		loadStartPage();
+	}
+
+		public void loadGameOverView(String playersName) {
+			
+			FXMLLoader loader = new FXMLLoader();
+			
+			Double width = getScreenWidth();
+			Double height = getScreenHeight();
+			
+			// 1920x1080
+			if (width.equals(1920.0) && height.equals(1080.0)) {	
+				loader.setLocation(MainApp.class.getResource("view/GameOverview1080p.fxml"));
+				primaryStage.setFullScreen(true);
+			} else 
+				
+			// 1280x720
+			if (width.equals(1280.0) && height.equals(720.0)){
+				loader.setLocation(MainApp.class.getResource("view/GameOverview720p.fxml"));
+				primaryStage.setFullScreen(true);
+			} else 
+				
+			// 1200x800
+			if (width.equals(1200.0) && height.equals(800.0)) {
+				loader.setLocation(MainApp.class.getResource("view/GameOverview1200x800p.fxml"));
+<<<<<<< .mine
+			} else {
+			
+			// if no case use 1280x720
+				loader.setLocation(MainApp.class.getResource("view/GameOverview720p.fxml"));
+			}
+
+				try {
+					root = (BorderPane) loader.load();
+				} catch (IOException e) {
+					// TODO Automatisch generierter Erfassungsblock
+					e.printStackTrace();
+				}	
+
+			
+			Scene scene = new Scene(root);
+			primaryStage.setScene(scene);
+			
+			// Set a icon to the application.
+			this.primaryStage.getIcons().add(new Image("file:src/resources/images/Icon.png"));
+
+			primaryStage.show();
+			
+			// Give the controller access to the main app.
+			GameControler controler = loader.getController();
+			controler.setMainApp(this);
+			
+			try {
+				controler.initControler(playersName);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+	}
+	
+		
+		public void loadGameOverView(String playersName) {
+			
+			FXMLLoader loader = new FXMLLoader();
+			
+			Double width = getScreenWidth();
+			Double height = getScreenHeight();
+			
+			// 1920x1080
+			if (width.equals(1920.0) && height.equals(1080.0)) {	
+				loader.setLocation(MainApp.class.getResource("view/GameOverview1080p.fxml"));
+			} else 
+				
+			// 1280x720
+			if (width.equals(1280.0) && height.equals(720.0)){
+				loader.setLocation(MainApp.class.getResource("view/GameOverview720p.fxml"));
+			} else 
+				
+			// 1200x800
+			if (width.equals(1200.0) && height.equals(800.0)) {
+				loader.setLocation(MainApp.class.getResource("view/GameOverview1200x800p.fxml"));
+||||||| .r97
+=======
+				primaryStage.setFullScreen(true);
+>>>>>>> .r100
+			} else {
+			
+			// if no case use 1280x720
+				loader.setLocation(MainApp.class.getResource("view/GameOverview720p.fxml"));
+			}
+
+			try {
+				root = (BorderPane) loader.load();	
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			Scene scene = new Scene(root);
+			
+			// Set a icon to the application.
+			this.primaryStage.getIcons().add(new Image("file:src/resources/images/Icon.png"));
+			
+			primaryStage.setScene(scene);
+			primaryStage.centerOnScreen();
+			
+			primaryStage.show();
+			
+			// Give the controller access to the main app.
+			GameControler controler = loader.getController();
+			controler.setMainApp(this);
+			
+			try {
+				controler.initControler(playersName);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+	}
+		
+
+		
+	public void loadMissionsView() {
+			
+			try { 
+				FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(MainApp.class.getResource("view/MissionsView.fxml"));
+				AnchorPane missionsView = (AnchorPane) loader.load(); 
+				
+				Stage missionStage = new Stage();
+				missionStage.setTitle("Missions");
+				missionStage.initOwner(primaryStage);
+				
+				// Set a icon to the application.
+				missionStage.getIcons().add(new Image("file:src/resources/images/Icon.png"));
+				
+				Scene scene = new Scene(missionsView);
+				missionStage.centerOnScreen();
+				missionStage.setScene(scene);
+				
+				// Set a icon to the application.
+				
+				MissionsControler controler = loader.getController();
+				controler.setDialogStage(missionStage);
+				
+				missionStage.showAndWait();
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+		}
+	
+	
+	public void loadStartPage() {
+		try { 
+			
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/StartOverview.fxml"));
+			root2 = (AnchorPane) loader.load(); 
+			
+			// Set a icon to the application.
+			this.primaryStage.getIcons().add(new Image("file:src/resources/images/Icon.png"));
+			
+			Scene scene = new Scene(root2);
+			primaryStage.centerOnScreen();
+			primaryStage.setScene(scene);
+			
+			primaryStage.show();
+			
+			StartControler controler = loader.getController();
+			controler.setMainApp(this);
+			//controler.initControler();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+			
+		
+			
+	
+	/**
+	 * @return the primaryStage
+	 */
+	public Stage getPrimaryStage() {
+		return primaryStage;
+	}
+	
+	
+	public void exitGame() {
+		Platform.exit();
+	}
+	
+	
+	/**
+	 * Returns the Screen width of the monitor.
+	 * @return width
+	 */
+	public Double getScreenWidth() {
+		return dim.getWidth(); 	
+	}
+	
+	/**
+	 * Returns the Screen height of the monitor.
+	 * @return height
+	 */
+	public Double getScreenHeight() {
+		return dim.getHeight(); 	
+	}
+
+
+	public static void main(String[] args) {
+		launch(args);
+	}
+}

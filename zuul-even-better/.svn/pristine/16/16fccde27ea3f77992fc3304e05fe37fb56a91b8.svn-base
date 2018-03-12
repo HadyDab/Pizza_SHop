@@ -1,0 +1,169 @@
+package de.fh_zwickau.oose.zuul;
+
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.io.IOException;
+
+import de.fh_zwickau.oose.zuul.view.GameControler;
+
+import de.fh_zwickau.oose.zuul.view.MissionsControler;
+import de.fh_zwickau.oose.zuul.view.StartControler;
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+
+/**
+ * The main app of our game. This class is for loading the GUI.
+ * 
+ * @author HadyDab, XardsLP
+ * 
+ */
+public class MainApp extends Application {
+
+	private Stage primaryStage;
+	private BorderPane rootLayout;
+	private AnchorPane root2;
+
+	private Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+
+	@Override
+	public void start(Stage primaryStage) {
+		
+		this.primaryStage = primaryStage;
+		this.primaryStage.setTitle("GhostHouse");
+		
+		loadStartPage();
+	}
+
+	public void loadGameOverView(String playersName) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+
+			Integer width = getScreenWidth();
+
+			switch (width) {
+			case 1920:
+				loader.setLocation(MainApp.class.getResource("view/GameOverview1080p.fxml"));
+				break;
+			default:
+				loader.setLocation(MainApp.class.getResource("view/GameOverview720p.fxml"));
+			}
+
+			rootLayout = (BorderPane) loader.load();
+
+			Scene scene = new Scene(rootLayout);
+			primaryStage.setScene(scene);
+
+			// Set a icon to the application.
+			this.primaryStage.getIcons().add(new Image("resources/images/Icon.png"));
+
+			this.primaryStage.centerOnScreen();
+
+			if (width == 1920 || width == 1280)
+				this.primaryStage.setFullScreen(true);
+
+			primaryStage.show();
+
+			// Give the controller access to the main app.
+			GameControler controler = loader.getController();
+			controler.setMainApp(this);
+
+			controler.initControler(playersName);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public void loadMissionsView() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/MissionsView.fxml"));
+			AnchorPane missionsView = (AnchorPane) loader.load();
+
+			Stage missionStage = new Stage();
+			missionStage.setTitle("Missions");
+			missionStage.initOwner(primaryStage);
+
+			// Set a icon to the application.
+			missionStage.getIcons().add(new Image("resources/images/Icon.png"));
+
+			Scene scene = new Scene(missionsView);
+			missionStage.centerOnScreen();
+			missionStage.setScene(scene);
+
+			// Set a icon to the application.
+
+			MissionsControler controler = loader.getController();
+			controler.setDialogStage(missionStage);
+
+			missionStage.centerOnScreen();
+
+			missionStage.showAndWait();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public void loadStartPage() {
+		try {
+
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/StartOverview.fxml"));
+			root2 = (AnchorPane) loader.load();
+
+			// Set a icon to the application.
+			this.primaryStage.getIcons().add(new Image("resources/images/Icon.png"));
+
+			Scene scene = new Scene(root2);
+			primaryStage.setScene(scene);
+
+			primaryStage.centerOnScreen();
+
+			primaryStage.show();
+
+			StartControler controler = loader.getController();
+			controler.setMainApp(this);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * @return the primaryStage
+	 */
+	public Stage getPrimaryStage() {
+		return primaryStage;
+	}
+
+	/**
+	 * Returns the Screen width of the monitor.
+	 * 
+	 * @return width
+	 */
+	public Integer getScreenWidth() {
+		return (int) dim.getWidth();
+	}
+
+	/**
+	 * Returns the Screen height of the monitor.
+	 * 
+	 * @return height
+	 */
+	public Integer getScreenHeight() {
+		return (int) dim.getHeight();
+	}
+
+	public static void main(String[] args) {
+		launch(args);
+	}
+}

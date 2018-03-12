@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="800.0" maxWidth="1280.0" minHeight="800.0" minWidth="1200.0" prefHeight="800.0" prefWidth="1200.0" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.fh_zwickau.oose.zuul.view.GameControler">
+   <center>
+      <SplitPane dividerPositions="0.6002886002886003" maxHeight="760.0" maxWidth="1200.0" minHeight="760.0" minWidth="1200.0" orientation="VERTICAL" prefHeight="760.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
+        <items>
+          <AnchorPane maxHeight="400.0" maxWidth="1200.0" minHeight="400.0" minWidth="1200.0" prefHeight="400.0" prefWidth="1200.0">
+               <children>
+                  <SplitPane dividerPositions="0.5" layoutX="181.0" layoutY="92.0" maxHeight="400.0" minHeight="400.0" prefHeight="400.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                      <AnchorPane maxHeight="400.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: grey;">
+                           <children>
+                              <ImageView fx:id="imageView" cache="true" cacheHint="QUALITY" fitHeight="330.0" fitWidth="600.0" layoutX="35.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+                                 <image>
+                                    <Image url="@../../../../../resources/images/outside.jpg" />
+                                 </image></ImageView>
+                              <Text fx:id="tips" layoutX="50.0" layoutY="570.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" styleClass="text" text="Tips: Look forward, you can find items in every room!" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="360.0" />
+                              <ImageView fx:id="npcImageView" fitHeight="150.0" fitWidth="85.0" layoutX="264.0" layoutY="138.0" pickOnBounds="true" preserveRatio="true" />
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane maxHeight="400.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: grey;">
+                           <children>
+                              <ImageView fx:id="positionView" cache="true" cacheHint="QUALITY" fitHeight="330.0" fitWidth="700.0" layoutX="65.0" layoutY="111.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+                                 <image>
+                                    <Image url="@../../../../../resources/positions/Outside.png" />
+                                 </image></ImageView>
+                              <Text fx:id="position" layoutX="50.0" layoutY="570.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" styleClass="text" text="Current Room:" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="360.0" />
+                           </children>
+                        </AnchorPane>
+                    </items>
+                  </SplitPane>
+               </children></AnchorPane>
+          <AnchorPane maxWidth="1200.0" minWidth="1200.0">
+               <children>
+                  <SplitPane dividerPositions="0.5" maxWidth="1200.0" minWidth="1200.0">
+                    <items>
+                      <AnchorPane>
+                           <children>
+                              <SplitPane dividerPositions="0.29797979797979796">
+                                <items>
+                                  <AnchorPane minWidth="150.0">
+                                       <children>
+                                          <TableView fx:id="itemsInRoom" layoutX="8.0" layoutY="-44.0" maxWidth="170.0" minWidth="170.0" prefHeight="360.0" prefWidth="170.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <columns>
+                                              <TableColumn fx:id="itemName" maxWidth="170.0" minWidth="170.0" prefWidth="170.0" text="Items in Room" />
+                                            </columns>
+                                          </TableView>
+                                          <ImageView fitHeight="142.0" fitWidth="154.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="215.0">
+                                             <image>
+                                                <Image url="@../../../../../resources/images/RaumItems.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children></AnchorPane>
+                                  <AnchorPane maxWidth="353.0" minWidth="360.0">
+                                       <children>
+                                          <SplitPane dividerPositions="0.5" maxWidth="360.0" minWidth="360.0">
+                                            <items>
+                                              <AnchorPane minWidth="230.0" style="-fx-background-color: grey;">
+                                                   <children>
+                                                      <ImageView fitHeight="206.0" fitWidth="203.0" layoutX="12.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="12.0" AnchorPane.topAnchor="12.0">
+                                                         <image>
+                                                            <Image url="@../../../../../resources/images/Kompass.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                      <Pane layoutX="103.0" layoutY="12.0" onMouseClicked="#handleNorthButton" opacity="0.2" prefHeight="22.0" prefWidth="25.0" style="-fx-background-color: red;" />
+                                                      <Pane layoutX="196.0" layoutY="100.0" onMouseClicked="#handleEastButton" opacity="0.2" prefHeight="25.0" prefWidth="24.0" style="-fx-background-color: red;" />
+                                                      <Pane layoutX="11.0" layoutY="98.0" onMouseClicked="#handleWestButton" opacity="0.2" prefHeight="28.0" prefWidth="29.0" style="-fx-background-color: red;" />
+                                                      <Pane layoutX="101.0" layoutY="192.0" onMouseClicked="#handleSouthButton" opacity="0.2" prefHeight="23.0" prefWidth="27.0" style="-fx-background-color: red;" />
+                                                      <Text fx:id="position1" layoutX="50.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" styleClass="text" text="Timer:" />
+                                                      <Text fx:id="position11" layoutX="106.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" styleClass="text" text="00:00:00" />
+                                                   </children>
+                                                </AnchorPane>
+                                              <AnchorPane minWidth="120.0" style="-fx-background-color: grey;">
+                                                   <children>
+                                                      <GridPane layoutX="-63.0" layoutY="31.0" maxHeight="391.0" maxWidth="120.0" minHeight="280.0" minWidth="120.0" prefHeight="359.0" prefWidth="127.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-7.0" AnchorPane.topAnchor="0.0">
+                                                        <columnConstraints>
+                                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" />
+                                                        </columnConstraints>
+                                                        <rowConstraints>
+                                                          <RowConstraints maxHeight="46.0" minHeight="60.0" prefHeight="51.0" vgrow="SOMETIMES" />
+                                                            <RowConstraints maxHeight="46.0" minHeight="60.0" prefHeight="51.0" vgrow="SOMETIMES" />
+                                                            <RowConstraints maxHeight="46.0" minHeight="60.0" prefHeight="51.0" vgrow="SOMETIMES" />
+                                                            <RowConstraints maxHeight="46.0" minHeight="60.0" prefHeight="51.0" vgrow="SOMETIMES" />
+                                                          <RowConstraints maxHeight="46.0" minHeight="60.0" prefHeight="51.0" vgrow="SOMETIMES" />
+                                                          <RowConstraints maxHeight="46.0" minHeight="60.0" prefHeight="51.0" vgrow="SOMETIMES" />
+                                                        </rowConstraints>
+                                                         <children>
+                                                            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleTakeButton" style="-fx-font-size: 18; -fx-background-color: green; -fx-border-color: black;" text="Take" GridPane.rowIndex="1" />
+                                                            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-font-size: 18; -fx-background-color: darkred; -fx-border-color: black;" text="Drop" GridPane.rowIndex="2" />
+                                                            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-font-size: 18; -fx-background-color: blue; -fx-border-color: black;" text="Help" GridPane.rowIndex="4" />
+                                                            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleQuitButton" style="-fx-font-size: 18; -fx-background-color: red; -fx-border-color: black;" text="Missions" GridPane.rowIndex="5" />
+                                                            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleTalkButton" style="-fx-font-size: 18; -fx-background-color: green; -fx-border-color: black;" text="Talk" />
+                                                            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-font-size: 18; -fx-background-color: darkred; -fx-border-color: black;" text="Use" GridPane.rowIndex="3" />
+                                                         </children>
+                                                      </GridPane>
+                                                   </children>
+                                                </AnchorPane>
+                                            </items>
+                                          </SplitPane>
+                                       </children></AnchorPane>
+                                </items>
+                              </SplitPane>
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane>
+                           <children>
+                              <SplitPane dividerPositions="0.29797979797979796" layoutX="-3.0">
+                                <items>
+                                  <AnchorPane style="-fx-background-color: grey;">
+                                       <children>
+                                          <GridPane layoutX="81.0" layoutY="73.0" prefHeight="280.0" prefWidth="440.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
+                                            <columnConstraints>
+                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                              <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                             <children>
+                                                <TextArea fx:id="textArea" style="-fx-font-size: 16; -fx-border-color: black; -fx-border-width: 3;" styleClass="table-view" stylesheets="@DarkTheme.css" GridPane.rowIndex="1" />
+                                                <TextField fx:id="textField" maxWidth="250.0" prefHeight="41.0" prefWidth="250.0" style="-fx-border-color: black; -fx-border-width: 3;" styleClass="table-view">
+                                                   <GridPane.margin>
+                                                      <Insets />
+                                                   </GridPane.margin>
+                                                </TextField>
+                                                <Button minWidth="120.0" mnemonicParsing="false" onAction="#handleEnter" text="Enter">
+                                                   <GridPane.margin>
+                                                      <Insets left="280.0" />
+                                                   </GridPane.margin>
+                                                </Button>
+                                             </children>
+                                          </GridPane>
+                                       </children></AnchorPane>
+                                  <AnchorPane maxHeight="360.0" maxWidth="180.0" minHeight="360.0" minWidth="180.0" prefHeight="360.0" prefWidth="180.0">
+                                       <children>
+                                          <TableView fx:id="playerInventory" layoutX="-30.0" layoutY="-41.0" maxWidth="170.0" minWidth="170.0" prefHeight="360.0" prefWidth="180.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <columns>
+                                              <TableColumn fx:id="itemNameinPlayerInventory" maxWidth="170.0" prefWidth="170.0" text="Inventory" />
+                                            </columns>
+                                          </TableView>
+                                          <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="8.0" AnchorPane.topAnchor="190.0">
+                                             <image>
+                                                <Image url="@../../../../../resources/images/Tasche.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children></AnchorPane>
+                                </items>
+                              </SplitPane>
+                           </children>
+                        </AnchorPane>
+                    </items>
+                  </SplitPane>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </center>
+   <top>
+      <MenuBar maxHeight="40.0" maxWidth="1200.0" minHeight="40.0" minWidth="1200.0" prefHeight="40.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="Game">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Save" />
+                  <MenuItem mnemonicParsing="false" text="Load" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleQuitButton" text="Quit" />
+               </items></Menu>
+        </menus>
+      </MenuBar>
+   </top>
+</BorderPane>

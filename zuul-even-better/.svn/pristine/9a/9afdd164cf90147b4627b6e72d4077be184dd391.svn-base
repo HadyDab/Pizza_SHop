@@ -1,0 +1,83 @@
+/**
+ * 
+ */
+package de.fh_zwickau.oose.zuul.savadata;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
+
+import de.fh_zwickau.oose.zuul.model.Room;
+
+
+/**
+ * @author HadyDab
+ *
+ */
+public class SaveData implements Serializable{
+
+	private static final long serialVersionUID = 20L;
+	
+	private  Room curentRoomName;
+	
+	private  Map<String,Room> rooms;
+	
+	private List<Room> rooms1;
+	
+	public SaveData() {
+		
+	}
+
+	/**
+	 * @return the curentRoomName
+	 */
+	public Room getCurentRoomName() {
+		return curentRoomName;
+	}
+
+	/**
+	 * @param curentRoomName the curentRoomName to set
+	 */
+	public void setCurentRoomName(Room curentRoomName) {
+		this.curentRoomName = curentRoomName;
+	}
+
+	/**
+	 * @return the rooms
+	 */
+	public Map<String, Room> getRooms() {
+		return rooms;
+	}
+
+	/**
+	 * @param rooms the rooms to set
+	 */
+	public void setRooms(Map<String, Room> rooms) {
+		this.rooms = rooms;
+	}
+
+	/**
+	 * @return the rooms1
+	 */
+	public List<Room> getRooms1() {
+		return rooms1;
+	}
+
+	/**
+	 * @param rooms1 the rooms1 to set
+	 */
+	public void setRooms1(List<Room> rooms1) {
+		this.rooms1 = rooms1;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}
+
+

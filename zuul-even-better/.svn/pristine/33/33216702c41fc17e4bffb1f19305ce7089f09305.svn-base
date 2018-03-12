@@ -1,0 +1,23 @@
+package de.fh_zwickau.oose.zuul.model.commands;
+
+import de.fh_zwickau.oose.zuul.model.Player;
+
+public class TalkCommand extends Command {
+
+	public TalkCommand() {
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public boolean execute(Player player) {
+		player.talk();
+		return false;
+	}
+
+	@Override
+	public String getHelp() {
+		// TODO Auto-generated method stub
+		return "Press the [talk] button to talk to a Ghost";
+	}
+
+}

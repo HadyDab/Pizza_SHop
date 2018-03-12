@@ -1,0 +1,36 @@
+package de.fh_zwickau.oose.zuul.model.commands;
+
+import de.fh_zwickau.oose.zuul.model.Player;
+
+/**
+ * The use command to use a item to a other object.
+ * @author XardsLP
+ *
+ */
+public class UseCommand extends Command {
+
+	/**
+	 *	Use an item from Players Inventory, depending on which item used the outcome may differerent.
+	 *	@param player the player that use the item
+	 *  @return boolean default false
+	 */
+	@Override
+	public boolean execute(Player player) {
+		if(hasSecondWord() && hasThirdWord()) {
+			String itemName = getSecondWord();
+			String usedFor = getThirdWord();
+			player.useItemFromInventory(itemName,usedFor);
+		}
+		return false;
+	}
+			
+	/**
+	 * The help information of the syntax to use the game command.
+	 */
+	@Override
+	public String getHelp() {
+		String help = "Type [use] and the [item name] and the [what to use it for ] without the square brackets to use the specified item";
+		return help;
+	}
+
+}

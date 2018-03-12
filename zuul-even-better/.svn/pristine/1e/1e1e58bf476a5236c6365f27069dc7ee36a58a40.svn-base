@@ -1,0 +1,43 @@
+package de.fh_zwickau.oose.zuul.model.commands;
+
+import de.fh_zwickau.oose.zuul.model.Player;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+
+/**
+ * The 'showinventory' command to show the inventory and his items into it.
+ * @author XardsLP
+ *
+ */
+public class ShowInventoryCommand extends Command {
+	
+	/**
+	 *  Show the list of all the items in player's Inventory 
+	 *  @param player the player which inventory will be showed
+	 *  @return boolean default false
+	 */
+	@Override
+	public boolean execute(Player player) {
+		
+		player.showMyInventory();
+		
+		return false;
+	}
+
+	/**
+	 * Print the help information to the player.
+	 */
+	@Override
+	public String getHelp() {
+		String help = "Type [showinventory] without the square brackets to see all the items in your Inventory.";
+		return help;
+	}
+
+	@Override
+	public boolean executeGUI(Player player, TextArea output, ImageView roomview, ImageView posview, TextField input) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+}

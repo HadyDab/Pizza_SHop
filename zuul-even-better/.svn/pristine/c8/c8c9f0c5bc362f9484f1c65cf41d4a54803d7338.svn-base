@@ -1,0 +1,120 @@
+package de.fh_zwickau.oose.zuul;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+import de.fh_zwickau.oose.zuul.model.Player;
+import de.fh_zwickau.oose.zuul.model.Room;
+import de.fh_zwickau.oose.zuul.model.items.Item;
+import de.fh_zwickau.oose.zuul.model.items.Key;
+
+
+
+/**
+ * JUnit Test Case Class for the DropCommand Class.
+ * @author XardsLP
+ *
+ */
+class DropCommandTest {
+	
+	Player player = new Player();
+	Room testroom1;	
+	Item key, key1, key2;
+
+	@Test
+	void testDropAfterTake() {
+		System.out.println("--------------------testDropAfterTake--------------------");
+		testroom1 = new Room("in testroom1.");
+		key = new Key();
+		testroom1.addItemstoRoom("key", new Key());
+		
+		player.setCurrentRoom(testroom1);
+		
+		player.takeItem("key");
+		
+		player.dropItem("key"); //TODO: Item wird nicht korrekt fallen gelassen.
+		
+		System.out.println("player contains key? :" + player.getInventory().containsKey("key"));
+		
+		assertTrue(player.getInventory().isEmpty());
+
+	}
+	
+	@Test
+	void testDropOf1Item() {
+		System.out.println("--------------------testDropOf1Item--------------------");
+		testroom1 = new Room("in testroom1.");
+		key = new Key();
+		player.setCurrentRoom(testroom1);
+		
+		player.addItemtoInventory("key", key);
+		
+		player.dropItem("key");
+		
+		System.out.println("player contains key? :" + player.getInventory().containsKey("key"));
+		
+		assertTrue(player.getInventory().isEmpty());
+	}
+	
+	
+	@Test
+	void test_drop_of_more_than_one_Item() {
+		
+		testroom1 = new Room("in testroom1.");
+		key = new Key();
+		key1 = new Key();
+		key2 = new Key();
+		
+		player.addItemtoInventory("oldKey", key);
+		player.addItemtoInventory("newKey", key1);
+		player.addItemtoInventory("halfKey", key2);
+		
+		System.out.println("player has " + player.getInventory().size() + " items now ");
+		
+		player.setCurrentRoom(testroom1);
+		player.dropItem("oldKey");
+		player.dropItem("newKey");
+		
+		int remainingItem = 1;
+		
+		System.out.println("player has " + player.getInventory().size() + " items now");
+		assertEquals(remainingItem, player.getInventory().size());
+		
+	}
+	
+	
+	
+	@Test
+	void test_if_item_droped_is_in_the_corrent_room() {
+		
+		testroom1 = new Room("in testroom1.");
+		key = new Key();
+		player.setCurrentRoom(testroom1);
+		
+		player.addItemtoInventory("key", key);
+		
+		player.dropItem("key");
+		
+		Item item = testroom1.getAllItems().get("key");
+		
+		assertEquals(key, item);
+		
+	}
+	
+	
+	
+	
+	@Test
+	void testDrop_item_when_no_item_in_inventory() {
+		testroom1 = new Room("in testroom1.");
+		player.setCurrentRoom(testroom1);
+		player.dropItem("key");
+		
+		System.out.println("player has no Item ");
+		assertTrue(player.getInventory().isEmpty());
+	}
+	
+	
+
+}

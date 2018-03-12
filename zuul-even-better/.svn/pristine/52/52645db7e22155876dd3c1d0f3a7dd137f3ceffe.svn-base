@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.fh_zwickau.oose.zuul.view.ImageViewControler">
+   <center>
+      <AnchorPane cache="true" cacheHint="QUALITY" maxHeight="1080.0" maxWidth="1920.0" minWidth="1280.0" prefHeight="720.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fx:id="image" cache="true" cacheHint="QUALITY" fitHeight="680.0" fitWidth="1240.0" layoutX="-9.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+               <image>
+                  <Image url="@../../../../../resources/images/outside.jpg" />
+               </image>
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

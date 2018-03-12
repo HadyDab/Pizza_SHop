@@ -1,0 +1,323 @@
+package de.fh_zwickau.oose.zuul.model;
+
+import java.util.Set;
+
+import de.fh_zwickau.oose.zuul.model.NPC.Ghost;
+import de.fh_zwickau.oose.zuul.model.NPC.NPC;
+import de.fh_zwickau.oose.zuul.model.items.Item;
+
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Optional;
+
+/**
+ * Class Room - a room in an adventure game.
+ *
+ * This class is part of the "World of Zuul" application.
+ * "World of Zuul" is a very simple, text based adventure game.
+ *
+ * A "Room" represents one location in the scenery of the game.  It is
+ * connected to other rooms via exits.  For each existing exit, the room
+ * stores a reference to the neighboring room.
+ *
+ * @author  Michael Kolling and David J. Barnes
+ * @version 2008.03.30
+ */
+
+public class Room {
+	
+
+    private String description;
+    private HashMap<String, Room> exits;        // stores exits of this room.
+    private Map<String,Item> items;				// stores items of this room.
+    private boolean isLocked = false;
+    private NPC npc;
+    private Map<String,String> images;
+    private Map<String,String> positions;
+    
+    
+    
+    /**
+     * Create a room described 'description'. Initially, it has no exits.
+     * 'description' is something like 'in a kitchen' or 'in an open court
+     * yard'.
+     * Initialize a empty HashMap for the items. Later items can be add to the room.
+     */
+    public Room (String description) {
+        this.description = description;
+        this.exits = new HashMap<String, Room>();
+        this.items = new HashMap<>();
+        this.images = new HashMap<String,String>();
+        this.positions = new HashMap<String,String>();
+       
+    }
+    
+    /**
+     * Second Constructor for creating Rooms with locked Door. 
+     * @param description the description of the room
+     * @param lock the boolean status of the room 
+     */
+    public Room(String description, boolean lock) {
+    	this.description = description;
+    	this.isLocked = lock;
+    	exits = new HashMap<String, Room>();
+    	items = new HashMap<>();
+    	this.images = new HashMap<String,String>();
+    	this.positions = new HashMap<String,String>();
+    }
+    
+    /**
+     * Define an exit from this room.
+     * @param direction the direction of the neigbor rooms
+     * @param neighbor the neigbor of the current room
+     */
+    public void setExit(String direction, Room neighbor) {
+        exits.put(direction, neighbor);
+    }
+    
+    /**
+     * Set lock to a particular Room.
+     * @param isLock the boolean isLock 
+     */
+    public void setLock(boolean isLock) {
+    	this.isLocked = isLock;
+    }
+    
+    /**
+     * A simple getter Method to check if the Door to a Room is Locked.
+     * @return isLocked 
+     */
+    public boolean isDoorLock() {
+    	return isLocked;
+    }
+    
+    /**
+     * Set Items in this Room. 
+     * @param name the name of the item
+     * @param item the item object
+     */
+    public void addItemstoRoom(String name, Item item) {
+    	items.put(name, item);
+    }
+
+    /**
+     * Return the description of the room (the description that was defined in the
+     * constructor).
+     * @return description the description of the room
+     */
+    public String getShortDescription() {
+        return description;
+    }
+    
+//     *   Return all the List of this Room 
+//     * @return
+//     */
+//    public List<Item> getItems() {
+//		return items;
+//	}
+    /**
+     *  A simple getter Method to return all list of Item in this Room.
+     * @return items list of items
+     */
+    public Map<String, Item> getAllItems() {
+		return items;
+	}
+    
+	/**
+     * Return a long description of this room, in the example form:
+     *     'You are in the kitchen.'
+     *     'Exits: north west'
+     * @return description the description of the room with the information of the exits
+     */
+    public String getLongDescription() {
+        return "You are " + description + ".\n" + getExitString();
+    }
+
+	/**
+     * Return a string describing the room's exits, for example
+     * 'Exits: north west'.
+     * @return returnString the String of exits
+     */
+    private String getExitString() {
+        String returnString = "Exits:";
+        Set<String> keys = exits.keySet();
+        for(Iterator<String> iter = keys.iterator(); iter.hasNext(); )
+            returnString += " " + iter.next();
+        return returnString;
+    }
+
+    /**
+     * Return the room that is reached if we go from this room in direction
+     * 'direction'. If there is no room in that direction, return null.
+     * @return direction the direction of the exits
+     */
+    public Optional<Room> getExit(String direction)  {
+    		Optional<Room> optionalRoom = Optional.ofNullable(exits.get(direction));
+        return optionalRoom;
+    }
+    
+    
+    /**
+     * 
+     * @param itemName
+     * @return
+     */
+    public Item giveThisItem(String itemName) {
+     if(items.containsKey(itemName))	{
+    	 	return items.get(itemName); } else {
+    	 		System.out.println("No such item can be found");
+    		return null;
+    	}
+    }
+    
+    
+    public void deleteThisItem(String itemName) {
+    		if(items.containsKey(itemName)) {
+    		items.remove(itemName);
+    	} else {
+    		System.out.println("No such item");
+    	}
+    }
+    
+    
+
+    /**
+     * show all items
+     */
+    public void showAllItems() {
+    	 if(items.isEmpty()) {
+    		 System.out.println("There are no items in this room.");
+    	 } else {
+    		 System.out.println("There are items in this room you might like to take");
+     	System.out.println("All pickable items in this room are:");
+    		 for(Iterator<String> i = items.keySet().iterator(); i.hasNext(); ) {
+                 System.out.print(" [ " + i.next() + " ] ");
+             }
+             System.out.println();
+    	 }
+    	
+    	
+    }
+    
+    
+    
+    /**
+     *   Check if there is a Ghost in a room , return true if that is the case otherweise return false
+     * @return true if Ghost is in this Room
+     */
+     public boolean isThereNPC() {
+    	  if(this.getNPC() != null) {
+    		  return true;
+    	  }
+    	  return false;
+     }
+
+
+	/**
+	 * @return the ghost
+	 */
+	public NPC getNPC() {
+		return npc;
+	}
+
+	/**
+	 * @param ghost the ghost to set
+	 */
+	public void setNPC(NPC npc) {
+		this.npc = npc;
+	}
+	
+	
+	/**
+	 *  Set images to a room with their looking direction
+	 * @param direction
+	 * @param fileLocation
+	 */
+	public void setRoomImageWithLookingDirection(String direction, String fileLocation) {
+		images.put(direction, fileLocation);
+
+	}
+	
+	
+	/**
+	 * Set the position images to a toom with the looking direction of the player
+	 * @param direction
+	 * @param fileLocation
+	 */
+	public void setPlayerPosition(String direction, String fileLocation) {
+		positions.put(direction, fileLocation);
+	}
+	
+	
+	/**
+	 * Get Image of a room base on Looking Direction
+	 * @param direction
+	 * @return image
+	 */
+	public String getImageFromDirection(String direction) {
+		String image = images.get(direction);
+		return image;
+	}
+	
+	// TODO?
+	/**
+	 * Get the position image of a room base on the looking direction
+	 * @param direction
+	 * @return
+	 */
+	public String getPlayerPosition(String direction) {
+		String position = positions.get(direction);
+		return position;
+	}
+	
+	
+	
+	
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((exits == null) ? 0 : exits.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Room))
+			return false;
+		Room other = (Room) obj;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (exits == null) {
+			if (other.exits != null)
+				return false;
+		} else if (!exits.equals(other.exits))
+			return false;
+		return true;
+	}
+
+	
+
+   
+
+
+
+}
+

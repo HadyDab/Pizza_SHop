@@ -1,0 +1,29 @@
+/**
+ * 
+ */
+package de.fh_zwickau.oose.zuul.model.items;
+
+import de.fh_zwickau.oose.zuul.model.Player;
+import de.fh_zwickau.oose.zuul.model.Room;
+import de.fh_zwickau.oose.zuul.model.NPC.NPC;
+
+/**
+ * @author hady
+ *
+ */
+public class Candle extends Item{
+
+	@Override
+	public boolean useItem(Player player, String usage) {
+		Room room = player.getCurrentRoom();
+		if(room.isThereNPC()) {
+			NPC npc = room.getNPC();
+			npc.setIsVisible(true);
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
+
+}

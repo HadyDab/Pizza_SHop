@@ -1,0 +1,79 @@
+/**
+ * 
+ */
+package de.fh_zwickau.oose.zuul.model;
+
+import java.util.StringTokenizer;
+
+import de.fh_zwickau.oose.zuul.model.commands.Command;
+import de.fh_zwickau.oose.zuul.model.commands.CommandWords;
+import de.fh_zwickau.oose.zuul.model.commands.NullCommand;
+import javafx.scene.control.TextField;
+
+/**
+ * @author HadyDab
+ *
+ */
+public class Parser2 {
+	
+	private TextField input;
+	
+	private CommandWords commands;
+
+	/**
+	 * 
+	 */
+	public Parser2() {
+		commands = new CommandWords();
+	}
+	
+	/**
+	 *  This method returns a Command by input from a User if this command exit
+	 * @param input
+	 * @return
+	 */
+	public Command getCommand(TextField input){
+		this.input = input;
+		String word1;
+        String word2;
+        String word3;
+        
+        StringTokenizer tokenizer = new StringTokenizer(input.getText());
+        
+        if(tokenizer.hasMoreTokens()) {
+			word1 = tokenizer.nextToken();      // get first word
+		} else {
+			word1 = null;
+		}
+        if(tokenizer.hasMoreTokens()) {
+			word2 = tokenizer.nextToken();      // get second word
+		} else {
+			word2 = null;
+		}
+        if(tokenizer.hasMoreTokens()){
+			word3 = tokenizer.nextToken();		// get third word
+		} else {
+			word3 = null;
+		}
+        
+        Command command = commands.get(word1);
+        if(command == null) {
+        	command = new NullCommand();
+        } else {
+        	command.setCommandword(word1);
+        	command.setSecondWord(word2);
+        	command.setThirdWord(word3);
+        }
+        return command;
+	}
+	
+	
+	  /**
+     * Print out a list of valid command words.
+     */
+    public void showCommands() {
+        commands.showAll();
+    }
+    
+
+}

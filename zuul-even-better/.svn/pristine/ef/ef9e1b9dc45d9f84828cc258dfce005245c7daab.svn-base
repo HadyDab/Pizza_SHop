@@ -1,0 +1,137 @@
+/**
+ * 
+ */
+package de.fh_zwickau.oose.zuul.model.NPC;
+
+
+import java.util.HashMap;
+import java.util.Map;
+
+import de.fh_zwickau.oose.zuul.model.GameWorld;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+
+/**
+ * Class NPC - a npc in an adventure game.
+ *
+ * This class is part of the "Ghost House" application.
+ * "Ghost House" is a very simple, text based adventure game.
+ * 
+ * The NPC can interact with player 
+ * 
+ * @author Hady, XardsLP
+ *
+ */
+public abstract class NPC {
+
+	private boolean isVisible;
+	private Map<String, String> options;
+	private Map<String, String> optionsAnswers;
+	private Map<String, String> image;
+
+	private String name;
+
+	/**
+	 * Constructor of the NPC
+	 * @param name
+	 */
+	public NPC(String name) {
+		this.name = name;
+		this.image = new HashMap<>();
+		this.options = new HashMap<>();
+		this.optionsAnswers = new HashMap<>();
+	}
+
+	/**
+	 * Getter of the name of the NPC
+	 * @return
+	 */
+	public String getName() {
+		return this.name;
+	}
+
+	/**
+	 * Method to add speaking options to the NPC
+	 * @param optionsNumber
+	 * @param Option
+	 */
+	public void addOptions(String optionsNumber, String Option) {
+		this.options.put(optionsNumber, Option);
+	}
+
+	/**
+	 * Method to add speaking answers to the NPC
+	 * @param optionNumber
+	 * @param answer
+	 */
+	public void addOptionAnswer(String optionNumber,String answer) {
+		this.optionsAnswers.put(optionNumber, answer);
+	}
+
+	/**
+	 * Setter to add a image to a NPC
+	 * @param imageName
+	 * @param imageLocation
+	 */
+	public void addImage(String imageName,String imageLocation) {
+		this.image.put(imageName, imageLocation);
+	}
+
+	/**
+	 * Getter for return the imageName of the NPC
+	 * @param imageName
+	 * @return
+	 */
+	public String getImage(String imageName) {
+		return this.image.get(imageName);
+	}
+
+	/**
+	 * Getter that return a boolean when the task is completed.
+	 * @return the taskcomplete
+	 */
+	public boolean isVisible() {
+		return isVisible;
+	}
+
+	/**
+	 * @param isVisible the taskcomplete to set
+	 */
+	public void setIsVisible(boolean isVisible) {
+		this.isVisible = isVisible;
+	}
+
+	/**
+	 * @return the options
+	 */
+	public Map<String, String> getOptions() {
+		return options;
+	}
+
+	/**
+	 * @return the optionsAnswers
+	 */
+	public Map<String, String> getOptionsAnswers() {
+		return optionsAnswers;
+	}
+
+	/**
+	 * Check the task given to the player
+	 * @param gameWorld
+	 */
+	public abstract void checktask(GameWorld gameWorld);
+
+	/**
+	 * Display the options of the npc to the player
+	 * @param output
+	 */
+	public abstract void DisplayOptions(TextArea output);
+
+	/**
+	 * Handle the input of the player 
+	 * @param input- player input word
+	 * @param output- npc response
+	 */
+	public abstract void handleOption(TextField input,TextArea output);
+
+}

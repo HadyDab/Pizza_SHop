@@ -1,0 +1,30 @@
+
+package de.fh_zwickau.oose.zuul.model.NPC;
+
+import de.fh_zwickau.oose.zuul.model.Player;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+
+/**
+ * @author HadyDab
+ *
+ */
+public class BadGhost extends Ghost {
+
+	/**
+	 * @param name
+	 * @param health
+	 */
+	public BadGhost(String name, int health) {
+		super(name, health);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void interactWithPlayer(Player player, TextArea output, TextField input) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+}
